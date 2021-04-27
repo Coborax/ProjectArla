@@ -3,7 +3,8 @@ package com.redheads.arla.ui.controllers;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.redheads.arla.business.events.IUserRepoListener;
+import com.redheads.arla.business.events.IRepoListener;
+import com.redheads.arla.business.repo.IRepo;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.business.repo.UserRepo;
 import com.redheads.arla.entities.User;
@@ -18,7 +19,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AdminController implements Initializable, IUserRepoListener {
+public class AdminController implements Initializable, IRepoListener {
 
     @FXML
     private JFXListView<User> userList;
@@ -59,8 +60,10 @@ public class AdminController implements Initializable, IUserRepoListener {
     }
 
     @Override
-    public void userRepoChanged(UserRepo repo) {
-        userObservableList.clear();
-        userObservableList.addAll(repoFacade.getUserRepo().getAll());
+    public void userRepoChanged(IRepo repo) {
+        if (repo instanceof UserRepo) {
+            userObservableList.clear();
+            userObservableList.addAll(repo.getAll());
+        }
     }
 }

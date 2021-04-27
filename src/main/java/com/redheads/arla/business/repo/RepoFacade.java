@@ -13,6 +13,9 @@ public class RepoFacade {
 
     private UserRepo userRepo = new UserRepo();
 
+    /**
+     * Saves all changes in all repos
+     */
     public void saveChanges() {
         userRepo.saveAllChanges();
     }

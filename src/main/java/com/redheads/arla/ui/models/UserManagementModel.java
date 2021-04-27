@@ -29,11 +29,17 @@ public class UserManagementModel {
         });
     }
 
+    /**
+     * Adds a new user to repo
+     */
     public void newUser() {
         User newUser = new User("New User", "password", false);
         repoFacade.getUserRepo().add(newUser);
     }
 
+    /**
+     * Updates user object, and saves all changes
+     */
     public void saveUser() {
         selectedUser.get().setUsername(username.get());
         if (!password.get().isEmpty() && !password.get().isBlank()) {
@@ -42,6 +48,9 @@ public class UserManagementModel {
         repoFacade.saveChanges();
     }
 
+    /**
+     * Removes user from repo, and saves all changes
+     */
     public void deleteUser() {
         repoFacade.getUserRepo().remove(selectedUser.get());
         repoFacade.saveChanges();

@@ -1,6 +1,6 @@
 package com.redheads.arla.business.repo;
 
-import com.redheads.arla.business.events.IUserRepoListener;
+import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.IDataAccess;
 import com.redheads.arla.persistence.UserDataAccess;
@@ -17,7 +17,7 @@ public class UserRepo implements IRepo<User> {
 
     private IDataAccess<User> userDataAccess = new UserDataAccess();
 
-    private List<IUserRepoListener> listeners = new ArrayList<>();
+    private List<IRepoListener> listeners = new ArrayList<>();
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
     public UserRepo() {
@@ -78,12 +78,19 @@ public class UserRepo implements IRepo<User> {
         notifyUserRepoChange();
     }
 
-    public void subscribe(IUserRepoListener listener) {
+    /**
+     * Subscribe to listen for Repo events
+     * @param listener The listener to subscribe
+     */
+    public void subscribe(IRepoListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Notifies all listeners that the repo has changed
+     */
     private void notifyUserRepoChange() {
-        for (IUserRepoListener l : listeners) {
+        for (IRepoListener l : listeners) {
             l.userRepoChanged(this);
         }
     }
