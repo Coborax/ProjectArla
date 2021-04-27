@@ -16,12 +16,27 @@ public class User extends Entity {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+        entityChanged();
+    }
+
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+        entityChanged();
+    }
+
     public boolean isAdmin() {
         return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+        entityChanged();
     }
 
     @Override

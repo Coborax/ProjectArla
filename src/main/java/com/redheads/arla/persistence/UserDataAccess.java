@@ -13,6 +13,7 @@ public class UserDataAccess implements IDataAccess<User> {
     private final String CREATE_SQL = "INSERT INTO Users (Username, Password, IsAdmin) VALUES (?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM Users WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM Users;";
+    private final String UPDATE_SQL = "UPDATE Users SET Username = ?, Password = ?, IsAdmin = ? WHERE ID = ?;";
 
     private DBConnector dbConnector = new DBConnector();
 
@@ -76,7 +77,18 @@ public class UserDataAccess implements IDataAccess<User> {
 
     @Override
     public void update(User toUpdate) {
-
+        try (Connection conn = dbConnector.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(UPDATE_SQL);
+            statement.setString(1, toUpdate.getUsername());
+            statement.setString(2, toUpdate.getPassword());
+            statement.setBoolean(3, toUpdate.isAdmin());
+            statement.setInt(4, toUpdate.getId());
+            statement.execute();
+        } catch (SQLServerException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

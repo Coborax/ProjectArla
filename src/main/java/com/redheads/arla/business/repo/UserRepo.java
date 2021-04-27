@@ -5,6 +5,7 @@ import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.IDataAccess;
 import com.redheads.arla.persistence.UserDataAccess;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class UserRepo implements IRepo<User> {
     private IDataAccess<User> userDataAccess = new UserDataAccess();
 
     private List<IUserRepoListener> listeners = new ArrayList<>();
+    private LocalDateTime lastUpdated = LocalDateTime.now();
 
     public UserRepo() {
         users.addAll(userDataAccess.readAll());
@@ -57,12 +59,20 @@ public class UserRepo implements IRepo<User> {
 
     @Override
     public void saveAllChanges() {
+        for (User u : users) {
+            if (u.getLastUpdated().isAfter(lastUpdated)) {
+                userDataAccess.update(u);
+            }
+        }
+        lastUpdated = LocalDateTime.now();
+
         for (User u : newUsers) {
             userDataAccess.create(u);
         }
         for (User u : deletedUsers) {
             userDataAccess.delete(u);
         }
+
         newUsers.clear();
         deletedUsers.clear();
         notifyUserRepoChange();

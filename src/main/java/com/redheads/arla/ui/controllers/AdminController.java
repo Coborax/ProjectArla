@@ -1,10 +1,13 @@
 package com.redheads.arla.ui.controllers;
 
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.events.IUserRepoListener;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.business.repo.UserRepo;
 import com.redheads.arla.entities.User;
+import com.redheads.arla.ui.models.UserManagementModel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,9 +22,14 @@ public class AdminController implements Initializable, IUserRepoListener {
 
     @FXML
     private JFXListView<User> userList;
+    @FXML
+    private JFXPasswordField passwordField;
+    @FXML
+    private JFXTextField usernameField;
 
     private RepoFacade repoFacade = RepoFacade.getInstance();
 
+    private UserManagementModel userManagementModel;
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
 
     @Override
@@ -30,23 +38,24 @@ public class AdminController implements Initializable, IUserRepoListener {
 
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         Platform.runLater(() -> {
+            userManagementModel = new UserManagementModel(userList.getSelectionModel().selectedItemProperty());
+            usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
+            passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
+
             userList.setItems(userObservableList);
         });
     }
 
     public void newUser(ActionEvent event) {
-        User newUser = new User("New User", "123", false);
-        repoFacade.getUserRepo().add(newUser);
-        userList.getSelectionModel().select(newUser);
+        userManagementModel.newUser();
     }
 
     public void saveUser(ActionEvent event) {
-        repoFacade.saveChanges();
+        userManagementModel.saveUser();
     }
 
     public void deleteUser(ActionEvent event) {
-        repoFacade.getUserRepo().remove(userList.getSelectionModel().getSelectedItem());
-        repoFacade.saveChanges();
+        userManagementModel.deleteUser();
     }
 
     @Override
