@@ -1,4 +1,15 @@
-D:\Private\Repos\ProjectArla\src\main\java\module-info.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\RepoFacade.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\IRepo.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\App.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\SecondaryController.java
-D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\PrimaryController.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\database\DBConnector.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\UserRepo.java
+D:\Private\Repos\ProjectArla\src\main\java\module-info.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\AdminController.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\ConfigReader.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\Entity.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\LoginController.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\DBConfigReader.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\UserDataAccess.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\User.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\IDataAccess.java

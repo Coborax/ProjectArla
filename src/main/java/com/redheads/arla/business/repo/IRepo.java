@@ -29,4 +29,8 @@ public interface IRepo<T> {
      */
     void remove(T toRemove);
 
+    /**
+     * Writes all changes to data storage
+     */
+    void saveAllChanges();
 }

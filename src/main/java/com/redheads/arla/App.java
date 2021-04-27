@@ -1,5 +1,8 @@
 package com.redheads.arla;
 
+import com.redheads.arla.business.repo.RepoFacade;
+import com.redheads.arla.entities.User;
+import com.redheads.arla.persistence.UserDataAccess;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,7 +25,7 @@ public class App extends Application {
         stage.getIcons().add(ico);
         stage.setTitle("Project Arla");
 
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("adminView"), 1280, 720);
         stage.setScene(scene);
         stage.show();
     }

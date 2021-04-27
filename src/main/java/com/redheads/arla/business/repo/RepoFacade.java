@@ -2,9 +2,9 @@ package com.redheads.arla.business.repo;
 
 public class RepoFacade {
 
-    private RepoFacade instance;
+    private static RepoFacade instance;
 
-    public RepoFacade getInstance() {
+    public static RepoFacade getInstance() {
         if (instance == null) {
             instance = new RepoFacade();
         }
@@ -14,7 +14,7 @@ public class RepoFacade {
     private UserRepo userRepo = new UserRepo();
 
     public void saveChanges() {
-        //TODO: Add Persistance saving
+        userRepo.saveAllChanges();
     }
 
     public UserRepo getUserRepo() {
