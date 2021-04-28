@@ -21,6 +21,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>15.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>15.0.1</version>
+        </dependency>
 
         <!-- MS SQL Server Driver -->
         <dependency>
@@ -41,6 +46,13 @@
             <groupId>com.password4j</groupId>
             <artifactId>password4j</artifactId>
             <version>1.5.2</version>
+        </dependency>
+
+        <!-- TilesFX -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>11.48</version>
         </dependency>
 
         <!-- Junit -->

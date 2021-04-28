@@ -57,6 +57,9 @@
                               <JFXListView prefHeight="691.0" prefWidth="200.0" />
                            </children>
                         </VBox>
+                        <VBox fx:id="test">
+
+                        </VBox>
                      </children>
                   </HBox>
                </content>

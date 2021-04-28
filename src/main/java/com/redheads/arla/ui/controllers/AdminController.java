@@ -10,13 +10,18 @@ import com.redheads.arla.business.repo.UserRepo;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.ui.models.UserManagementModel;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +34,8 @@ public class AdminController implements Initializable, IRepoListener {
     private JFXPasswordField passwordField;
     @FXML
     private JFXTextField usernameField;
+    @FXML
+    private VBox test;
 
     private RepoFacade repoFacade;
     {
@@ -51,6 +58,16 @@ public class AdminController implements Initializable, IRepoListener {
 
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         Platform.runLater(() -> {
+            WebView webView = new WebView();
+            webView.getEngine().load("http://google.com");
+
+            Tile testTile = TileBuilder.create()
+                    .skinType(Tile.SkinType.CUSTOM)
+                    .title("Text Tile")
+                    .graphic(webView)
+                    .build();
+            test.getChildren().add(testTile);
+
             userManagementModel = new UserManagementModel(userList.getSelectionModel());
             usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
             passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
