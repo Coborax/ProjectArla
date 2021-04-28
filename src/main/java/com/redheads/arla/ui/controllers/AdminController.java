@@ -8,6 +8,7 @@ import com.redheads.arla.business.repo.IRepo;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.business.repo.UserRepo;
 import com.redheads.arla.entities.User;
+import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.models.UserManagementModel;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
@@ -16,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,10 +35,7 @@ public class AdminController implements Initializable, IRepoListener {
         try {
             repoFacade = RepoFacade.getInstance();
         } catch (DataAccessError dataAccessError) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("An error occurred");
-            a.setContentText(dataAccessError.getMessage());
-            a.showAndWait();
+            DialogFactory.createErrorAlert(dataAccessError).showAndWait();
         }
     }
 

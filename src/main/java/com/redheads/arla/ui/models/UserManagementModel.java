@@ -3,12 +3,14 @@ package com.redheads.arla.ui.models;
 import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.entities.User;
+import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MultipleSelectionModel;
+
+import java.util.Optional;
 
 public class UserManagementModel {
 
@@ -46,8 +48,10 @@ public class UserManagementModel {
      * Adds a new user to repo
      */
     public void newUser() {
-        User newUser = new User("New User", "password", false);
-        repoFacade.getUserRepo().add(newUser);
+        Optional<User> result = DialogFactory.createUserDialog().showAndWait();
+        if (result.isPresent()) {
+            repoFacade.getUserRepo().add(result.get());
+        }
     }
 
     /**
@@ -97,9 +101,6 @@ public class UserManagementModel {
     }
 
     private void showError(Exception e) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle("An error occurred");
-        a.setContentText(e.getMessage());
-        a.showAndWait();
+        DialogFactory.createErrorAlert(e).showAndWait();
     }
 }

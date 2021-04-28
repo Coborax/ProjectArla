@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.business.repo.RepoFacade;
+import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.event.ActionEvent;
@@ -31,7 +32,7 @@ public class LoginController {
             }
             }
         } catch (DataAccessError | IOException dataAccessError) {
-            dataAccessError.printStackTrace();
+            DialogFactory.createErrorAlert(dataAccessError).showAndWait();
         }
     }
 }

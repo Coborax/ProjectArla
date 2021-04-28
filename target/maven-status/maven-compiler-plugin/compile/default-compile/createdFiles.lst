@@ -13,6 +13,7 @@ com\redheads\arla\App.class
 com\redheads\arla\business\repo\UserRepo.class
 com\redheads\arla\entities\User.class
 com\redheads\arla\ui\controllers\AdminController.class
+com\redheads\arla\ui\DialogFactory.class
 com\redheads\arla\util\config\DBConfigReader.class
 com\redheads\arla\business\repo\RepoFacade.class
 com\redheads\arla\persistence\UserDataAccess.class
