@@ -82,6 +82,15 @@ public class UserRepo implements IRepo<User> {
         notifyUserRepoChange();
     }
 
+    public User get(String username) {
+        for (User u : users) {
+            if (u.getUsername().equals(username)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     /**
      * Subscribe to listen for Repo events
      * @param listener The listener to subscribe

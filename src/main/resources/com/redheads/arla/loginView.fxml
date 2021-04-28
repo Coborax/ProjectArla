@@ -11,8 +11,8 @@
       <Insets bottom="20.0" left="500.0" right="500.0" top="20.0" />
    </padding>
    <children>
-      <JFXTextField promptText="Username" />
-      <JFXPasswordField promptText="Password" />
-      <JFXButton prefHeight="48.0" prefWidth="281.0" text="Login" textAlignment="CENTER" />
+      <JFXTextField fx:id="usernameField" promptText="Username" />
+      <JFXPasswordField fx:id="passwordField" promptText="Password" />
+      <JFXButton onAction="#login" prefHeight="48.0" prefWidth="281.0" text="Login" textAlignment="CENTER" />
    </children>
 </VBox>

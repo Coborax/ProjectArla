@@ -25,12 +25,12 @@ public class App extends Application {
         stage.getIcons().add(ico);
         stage.setTitle("Project Arla");
 
-        scene = new Scene(loadFXML("adminView"), 1280, 720);
+        scene = new Scene(loadFXML("loginView"), 1280, 720);
         stage.setScene(scene);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
