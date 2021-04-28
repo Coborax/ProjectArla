@@ -3,6 +3,7 @@ package com.redheads.arla.persistence;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.database.DBConnector;
+import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class UserDataAccess implements IDataAccess<User> {
     private DBConnector dbConnector = new DBConnector();
 
     @Override
-    public void create(User toCreate) {
+    public void create(User toCreate) throws DataAccessError {
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(CREATE_SQL, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, toCreate.getUsername());
@@ -31,15 +32,13 @@ public class UserDataAccess implements IDataAccess<User> {
             if (keys.next()) {
                 toCreate.setId(keys.getInt(1));
             }
-        } catch (SQLServerException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessError("Could not create user: " + toCreate + " in database", e);
         }
     }
 
     @Override
-    public List<User> readAll() {
+    public List<User> readAll() throws DataAccessError {
         List<User> users = new ArrayList<>();
         try (Connection conn = dbConnector.getConnection()) {
             Statement statement = conn.createStatement();
@@ -57,10 +56,8 @@ public class UserDataAccess implements IDataAccess<User> {
                     users.add(user);
                 }
             }
-        } catch (SQLServerException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessError("Could not select all users from database", e);
         }
         return users;
     }
@@ -76,7 +73,7 @@ public class UserDataAccess implements IDataAccess<User> {
     }
 
     @Override
-    public void update(User toUpdate) {
+    public void update(User toUpdate) throws DataAccessError {
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(UPDATE_SQL);
             statement.setString(1, toUpdate.getUsername());
@@ -84,23 +81,19 @@ public class UserDataAccess implements IDataAccess<User> {
             statement.setBoolean(3, toUpdate.isAdmin());
             statement.setInt(4, toUpdate.getId());
             statement.execute();
-        } catch (SQLServerException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessError("Could not update user: " + toUpdate + " in database", e);
         }
     }
 
     @Override
-    public void delete(User toDelete) {
+    public void delete(User toDelete) throws DataAccessError {
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(DELETE_SQL);
             statement.setInt(1, toDelete.getId());
             statement.execute();
-        } catch (SQLServerException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessError("Could not delete user: " + toDelete + " in database", e);
         }
     }
 }

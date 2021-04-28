@@ -3,9 +3,11 @@ package com.redheads.arla.ui.models;
 import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.entities.User;
+import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Alert;
 
 public class UserManagementModel {
 
@@ -14,7 +16,15 @@ public class UserManagementModel {
 
     private ReadOnlyObjectProperty<User> selectedUser;
 
-    private RepoFacade repoFacade = RepoFacade.getInstance();
+    private RepoFacade repoFacade;
+    {
+        try {
+            repoFacade = RepoFacade.getInstance();
+        } catch (DataAccessError dataAccessError) {
+            showError(dataAccessError);
+        }
+    }
+
     private AuthService authService = new AuthService();
 
     public UserManagementModel(ReadOnlyObjectProperty<User> selectedUser) {
@@ -45,7 +55,11 @@ public class UserManagementModel {
         if (!password.get().isEmpty() && !password.get().isBlank()) {
             selectedUser.get().setPassword(authService.hashPassword(password.get()));
         }
-        repoFacade.saveChanges();
+        try {
+            repoFacade.saveChanges();
+        } catch (DataAccessError dataAccessError) {
+            showError(dataAccessError);
+        }
     }
 
     /**
@@ -53,7 +67,11 @@ public class UserManagementModel {
      */
     public void deleteUser() {
         repoFacade.getUserRepo().remove(selectedUser.get());
-        repoFacade.saveChanges();
+        try {
+            repoFacade.saveChanges();
+        } catch (DataAccessError dataAccessError) {
+            showError(dataAccessError);
+        }
     }
 
     public String getUsername() {
@@ -70,5 +88,12 @@ public class UserManagementModel {
 
     public StringProperty passwordProperty() {
         return password;
+    }
+
+    private void showError(Exception e) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setTitle("An error occurred");
+        a.setContentText(e.getMessage());
+        a.showAndWait();
     }
 }

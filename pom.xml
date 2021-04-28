@@ -10,6 +10,7 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -20,6 +21,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>15.0.1</version>
         </dependency>
+
         <!-- MS SQL Server Driver -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>

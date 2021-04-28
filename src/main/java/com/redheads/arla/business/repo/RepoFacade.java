@@ -1,10 +1,15 @@
 package com.redheads.arla.business.repo;
 
+import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+
 public class RepoFacade {
 
     private static RepoFacade instance;
 
-    public static RepoFacade getInstance() {
+    public RepoFacade() throws DataAccessError {
+    }
+
+    public static RepoFacade getInstance() throws DataAccessError {
         if (instance == null) {
             instance = new RepoFacade();
         }
@@ -16,7 +21,7 @@ public class RepoFacade {
     /**
      * Saves all changes in all repos
      */
-    public void saveChanges() {
+    public void saveChanges() throws DataAccessError {
         userRepo.saveAllChanges();
     }
 

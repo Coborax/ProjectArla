@@ -1,5 +1,7 @@
 package com.redheads.arla.business.repo;
 
+import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+
 import java.util.List;
 
 public interface IRepo<T> {
@@ -32,5 +34,5 @@ public interface IRepo<T> {
     /**
      * Writes all changes to data storage
      */
-    void saveAllChanges();
+    void saveAllChanges() throws DataAccessError;
 }

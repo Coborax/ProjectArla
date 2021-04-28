@@ -4,6 +4,7 @@ import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.IDataAccess;
 import com.redheads.arla.persistence.UserDataAccess;
+import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class UserRepo implements IRepo<User> {
     private List<IRepoListener> listeners = new ArrayList<>();
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
-    public UserRepo() {
+    public UserRepo() throws DataAccessError {
         users.addAll(userDataAccess.readAll());
     }
 
@@ -58,23 +59,26 @@ public class UserRepo implements IRepo<User> {
     }
 
     @Override
-    public void saveAllChanges() {
-        for (User u : users) {
-            if (u.getLastUpdated().isAfter(lastUpdated)) {
-                userDataAccess.update(u);
+    public void saveAllChanges() throws DataAccessError {
+        try {
+            for (User u : users) {
+                if (u.getLastUpdated().isAfter(lastUpdated)) {
+                    userDataAccess.update(u);
+                }
             }
-        }
-        lastUpdated = LocalDateTime.now();
+            lastUpdated = LocalDateTime.now();
 
-        for (User u : newUsers) {
-            userDataAccess.create(u);
+            for (User u : newUsers) {
+                userDataAccess.create(u);
+            }
+            for (User u : deletedUsers) {
+                userDataAccess.delete(u);
+            }
+            newUsers.clear();
+            deletedUsers.clear();
+        } catch (DataAccessError e) {
+            throw e;
         }
-        for (User u : deletedUsers) {
-            userDataAccess.delete(u);
-        }
-
-        newUsers.clear();
-        deletedUsers.clear();
         notifyUserRepoChange();
     }
 
