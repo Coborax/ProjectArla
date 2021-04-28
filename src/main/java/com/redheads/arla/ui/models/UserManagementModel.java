@@ -8,6 +8,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MultipleSelectionModel;
 
 public class UserManagementModel {
 
@@ -15,6 +16,7 @@ public class UserManagementModel {
     private StringProperty password = new SimpleStringProperty();
 
     private ReadOnlyObjectProperty<User> selectedUser;
+    private MultipleSelectionModel<User> selectionModel;
 
     private RepoFacade repoFacade;
     {
@@ -27,9 +29,10 @@ public class UserManagementModel {
 
     private AuthService authService = new AuthService();
 
-    public UserManagementModel(ReadOnlyObjectProperty<User> selectedUser) {
-        this.selectedUser = selectedUser;
-        selectedUser.addListener((observable, oldValue, newValue) -> {
+    public UserManagementModel(MultipleSelectionModel<User> selectedUser) {
+        this.selectionModel = selectedUser;
+        this.selectedUser = selectedUser.selectedItemProperty();
+        this.selectedUser.addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 username.set("");
             } else {
@@ -51,15 +54,18 @@ public class UserManagementModel {
      * Updates user object, and saves all changes
      */
     public void saveUser() {
-        selectedUser.get().setUsername(username.get());
+        User u = selectedUser.get();
+
+        u.setUsername(username.get());
         if (!password.get().isEmpty() && !password.get().isBlank()) {
-            selectedUser.get().setPassword(authService.hashPassword(password.get()));
+            u.setPassword(authService.hashPassword(password.get()));
         }
         try {
             repoFacade.saveChanges();
         } catch (DataAccessError dataAccessError) {
             showError(dataAccessError);
         }
+        selectionModel.select(u);
     }
 
     /**

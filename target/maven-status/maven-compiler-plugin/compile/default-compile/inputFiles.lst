@@ -14,4 +14,5 @@ C:\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\User.java
 C:\Repos\ProjectArla\src\main\java\module-info.java
 C:\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\IRepo.java
 C:\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\LoginController.java
+C:\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\DataAccessError.java
 C:\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\IDataAccess.java

@@ -51,7 +51,7 @@ public class AdminController implements Initializable, IRepoListener {
 
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         Platform.runLater(() -> {
-            userManagementModel = new UserManagementModel(userList.getSelectionModel().selectedItemProperty());
+            userManagementModel = new UserManagementModel(userList.getSelectionModel());
             usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
             passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
 
