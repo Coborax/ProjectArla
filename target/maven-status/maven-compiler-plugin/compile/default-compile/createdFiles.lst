@@ -5,6 +5,7 @@ com\redheads\arla\persistence\IDataAccess.class
 com\redheads\arla\ui\WindowManager.class
 com\redheads\arla\business\events\IRepoListener.class
 com\redheads\arla\util\exceptions\persistence\DataAccessError.class
+com\redheads\arla\ui\tasks\AuthenticateUserTask.class
 com\redheads\arla\ui\controllers\UserController.class
 module-info.class
 com\redheads\arla\entities\Entity.class

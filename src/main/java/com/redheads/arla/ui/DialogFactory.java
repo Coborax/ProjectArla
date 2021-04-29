@@ -11,10 +11,17 @@ import javafx.scene.layout.GridPane;
 
 public class DialogFactory {
 
-    public static Dialog createErrorAlert(Exception e) {
+    public static Dialog createErrorAlert(Throwable e) {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle("An error occurred");
         a.setContentText(e.getMessage());
+        return a;
+    }
+
+    public static Dialog createInfoAlert(String msg) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(msg);
+        a.setContentText(msg);
         return a;
     }
 

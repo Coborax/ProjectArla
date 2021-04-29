@@ -6,11 +6,17 @@ import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
+import com.redheads.arla.ui.tasks.AuthenticateUserTask;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Dialog;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LoginController {
 
@@ -22,17 +28,32 @@ public class LoginController {
     private AuthService authService = new AuthService();
 
     public void login(ActionEvent actionEvent) {
-        try {
-            if (authService.authenticateUser(usernameField.getText(), passwordField.getText())) {
-                boolean isAdmin = RepoFacade.getInstance().getUserRepo().get(usernameField.getText()).isAdmin();
-                if (isAdmin) {
-                    WindowManager.pushScene("adminView", 1280, 720);
+        AuthenticateUserTask task = new AuthenticateUserTask(usernameField.getText(), passwordField.getText());
+
+        // Notify user of error
+        task.setOnFailed(workerStateEvent -> {
+            DialogFactory.createErrorAlert(workerStateEvent.getSource().getException()).showAndWait();
+        });
+
+        task.setOnSucceeded(workerStateEvent -> {
+            try {
+                boolean authenticated = task.getValue();
+                if (authenticated) {
+                    boolean isAdmin = RepoFacade.getInstance().getUserRepo().get(usernameField.getText()).isAdmin();
+                    if (isAdmin) {
+                        WindowManager.pushScene("adminView", 1280, 720);
+                    } else {
+                        WindowManager.pushScene("userView", 1280, 720);
+                    }
                 } else {
-                    WindowManager.pushScene("userView", 1280, 720);
+                    DialogFactory.createInfoAlert("Username or password was incorrect");
+                }
+            } catch (IOException | DataAccessError e) {
+                DialogFactory.createErrorAlert(e).showAndWait();
             }
-            }
-        } catch (DataAccessError | IOException dataAccessError) {
-            DialogFactory.createErrorAlert(dataAccessError).showAndWait();
-        }
+        });
+
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        executorService.execute(task);
     }
 }
