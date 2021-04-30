@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.VBox?>
@@ -13,6 +14,7 @@
    <children>
       <JFXTextField fx:id="usernameField" promptText="Username" />
       <JFXPasswordField fx:id="passwordField" promptText="Password" />
+      <JFXSpinner fx:id="loadingSpinner" />
       <JFXButton onAction="#login" prefHeight="48.0" prefWidth="281.0" text="Login" textAlignment="CENTER" />
    </children>
 </VBox>

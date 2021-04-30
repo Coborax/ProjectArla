@@ -5,6 +5,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\auth\AuthS
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\events\IRepoListener.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\WindowManager.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\models\UserManagementModel.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\tasks\AuthenticateUserTask.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\database\DBConnector.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\UserRepo.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\DataAccessError.java

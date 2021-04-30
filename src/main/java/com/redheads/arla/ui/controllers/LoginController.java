@@ -1,6 +1,7 @@
 package com.redheads.arla.ui.controllers;
 
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.business.repo.RepoFacade;
@@ -8,18 +9,21 @@ import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.ui.tasks.AuthenticateUserTask;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
-import javafx.concurrent.WorkerStateEvent;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Dialog;
+import javafx.fxml.Initializable;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
+    @FXML
+    private JFXSpinner loadingSpinner;
     @FXML
     private JFXTextField usernameField;
     @FXML
@@ -27,11 +31,26 @@ public class LoginController {
 
     private AuthService authService = new AuthService();
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> {
+            loadingSpinner.setManaged(false);
+            loadingSpinner.setVisible(false);
+        });
+    }
+
     public void login(ActionEvent actionEvent) {
         AuthenticateUserTask task = new AuthenticateUserTask(usernameField.getText(), passwordField.getText());
 
+        task.setOnRunning(workerStateEvent -> {
+            loadingSpinner.setManaged(true);
+            loadingSpinner.setVisible(true);
+        });
+
         // Notify user of error
         task.setOnFailed(workerStateEvent -> {
+            loadingSpinner.setManaged(false);
+            loadingSpinner.setVisible(false);
             DialogFactory.createErrorAlert(workerStateEvent.getSource().getException()).showAndWait();
         });
 
