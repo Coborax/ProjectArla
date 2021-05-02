@@ -17,15 +17,21 @@ public class RepoFacade {
     }
 
     private UserRepo userRepo = new UserRepo();
+    private DashboardConfigRepo configRepo = new DashboardConfigRepo();
 
     /**
      * Saves all changes in all repos
      */
     public void saveChanges() throws DataAccessError {
         userRepo.saveAllChanges();
+        configRepo.saveAllChanges();
     }
 
     public UserRepo getUserRepo() {
         return userRepo;
+    }
+
+    public DashboardConfigRepo getConfigRepo() {
+        return configRepo;
     }
 }

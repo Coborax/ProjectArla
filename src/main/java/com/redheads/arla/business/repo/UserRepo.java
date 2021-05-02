@@ -1,6 +1,5 @@
 package com.redheads.arla.business.repo;
 
-import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.IDataAccess;
 import com.redheads.arla.persistence.UserDataAccess;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepo implements IRepo<User> {
+public class UserRepo extends ObservableRepo<User> {
 
     private List<User> users = new ArrayList<>();
     private List<User> newUsers = new ArrayList<>();
@@ -18,7 +17,7 @@ public class UserRepo implements IRepo<User> {
 
     private IDataAccess<User> userDataAccess = new UserDataAccess();
 
-    private List<IRepoListener> listeners = new ArrayList<>();
+
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
     public UserRepo() throws DataAccessError {
@@ -46,7 +45,7 @@ public class UserRepo implements IRepo<User> {
         if (toAdd.getId() == -1) {
             newUsers.add(toAdd);
         }
-        notifyUserRepoChange();
+        notifyRepoChange();
     }
 
     @Override
@@ -55,7 +54,7 @@ public class UserRepo implements IRepo<User> {
         if (toRemove.getId() != -1) {
             deletedUsers.add(toRemove);
         }
-        notifyUserRepoChange();
+        notifyRepoChange();
     }
 
     @Override
@@ -79,7 +78,7 @@ public class UserRepo implements IRepo<User> {
         } catch (DataAccessError e) {
             throw e;
         }
-        notifyUserRepoChange();
+        notifyRepoChange();
     }
 
     public User get(String username) {
@@ -89,22 +88,5 @@ public class UserRepo implements IRepo<User> {
             }
         }
         return null;
-    }
-
-    /**
-     * Subscribe to listen for Repo events
-     * @param listener The listener to subscribe
-     */
-    public void subscribe(IRepoListener listener) {
-        listeners.add(listener);
-    }
-
-    /**
-     * Notifies all listeners that the repo has changed
-     */
-    private void notifyUserRepoChange() {
-        for (IRepoListener l : listeners) {
-            l.userRepoChanged(this);
-        }
     }
 }

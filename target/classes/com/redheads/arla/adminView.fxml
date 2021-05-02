@@ -7,12 +7,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.web.WebView?>
 
 <VBox minHeight="720.0" minWidth="1280.0" styleClass="mainContent" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.redheads.arla.ui.controllers.AdminController">
    <children>
@@ -42,7 +38,7 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <JFXButton onAction="#newUser" text="New User" />
-                                    <JFXButton onAction="#saveUser" text="Save User" />
+                                    <JFXButton onAction="#saveUser" text="Save all changes" />
                                     <JFXButton onAction="#deleteUser" text="Delete User" />
                                  </children>
                               </HBox>
@@ -54,30 +50,28 @@
             </Tab>
             <Tab text="Dashboard Configuration">
                <content>
-                  <HBox prefWidth="230.0">
+                  <HBox>
                      <children>
-                        <VBox minWidth="230.0" prefWidth="230.0">
+                        <VBox alignment="CENTER" minWidth="230.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXListView prefHeight="691.0" prefWidth="200.0" />
+                              <JFXListView fx:id="configList" VBox.vgrow="ALWAYS" />
+                              <JFXTextField promptText="Filter configs..." />
                            </children>
                         </VBox>
-                        <VBox fx:id="tileContainer" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" prefHeight="682.0" prefWidth="1084.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <GridPane alignment="CENTER" VBox.vgrow="ALWAYS">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <VBox alignment="CENTER" prefHeight="580.0" prefWidth="1082.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets left="300.0" right="300.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
-                                    <WebView fx:id="testWeb2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <WebView fx:id="testWeb" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" />
-                                    <WebView fx:id="testWeb3" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <JFXButton onAction="#newConfig" text="New User" />
+                                    <JFXButton onAction="#saveConfig" text="Save all changes" />
+                                    <JFXButton onAction="#deleteConfig" text="Delete User" />
                                  </children>
-                              </GridPane>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

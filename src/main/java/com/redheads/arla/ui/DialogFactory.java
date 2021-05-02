@@ -15,6 +15,8 @@ public class DialogFactory {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle("An error occurred");
         a.setContentText(e.getMessage());
+
+        e.printStackTrace();
         return a;
     }
 
