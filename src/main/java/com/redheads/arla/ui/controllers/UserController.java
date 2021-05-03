@@ -46,6 +46,9 @@ public class UserController implements Initializable {
     }
 
     private void setupGrid() {
+        tileGrid.getChildren().clear();
+        tileGrid.setGridLinesVisible(true);
+
         for (DashboardCell cell : config.getCells()) {
             Node node = CellFactory.createCell(cell);
             tileGrid.add(node, cell.getColumn(), cell.getRow(), cell.getColSpan(), cell.getRowSpan());
@@ -57,6 +60,7 @@ public class UserController implements Initializable {
         RowConstraints rc = new RowConstraints();
         rc.setPercentHeight(100d / rowCount);
 
+        tileGrid.getRowConstraints().clear();
         for (int i = 0; i < rowCount; i++) {
             tileGrid.getRowConstraints().add(rc);
         }
@@ -64,12 +68,15 @@ public class UserController implements Initializable {
         ColumnConstraints cc = new ColumnConstraints();
         cc.setPercentWidth(100d / columnCount);
 
+
+        tileGrid.getColumnConstraints().clear();
         for (int i = 0; i < columnCount; i++) {
             tileGrid.getColumnConstraints().add(cc);
         }
     }
 
     public void refresh(ActionEvent actionEvent) {
+        setupGrid();
     }
 
     public void logout(ActionEvent actionEvent) {
