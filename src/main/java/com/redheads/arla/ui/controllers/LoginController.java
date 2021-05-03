@@ -30,6 +30,8 @@ public class LoginController implements Initializable {
 
     private AuthService authService = new AuthService();
 
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
@@ -72,7 +74,6 @@ public class LoginController implements Initializable {
             }
         });
 
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
         executorService.execute(task);
     }
 }
