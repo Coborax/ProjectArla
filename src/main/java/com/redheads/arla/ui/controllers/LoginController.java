@@ -58,6 +58,8 @@ public class LoginController implements Initializable {
         });
 
         task.setOnSucceeded(workerStateEvent -> {
+            loadingSpinner.setManaged(false);
+            loadingSpinner.setVisible(false);
             try {
                 boolean authenticated = task.getValue();
                 if (authenticated) {

@@ -6,8 +6,10 @@ import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.ui.CellFactory;
 import com.redheads.arla.ui.DialogFactory;
+import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -65,5 +67,13 @@ public class UserController implements Initializable {
         for (int i = 0; i < columnCount; i++) {
             tileGrid.getColumnConstraints().add(cc);
         }
+    }
+
+    public void refresh(ActionEvent actionEvent) {
+    }
+
+    public void logout(ActionEvent actionEvent) {
+        WindowManager.popScene();
+        UserSession.getInstance().setCurrentUser(null);
     }
 }
