@@ -47,7 +47,6 @@ public class UserController implements Initializable {
 
     private void setupGrid() {
         tileGrid.getChildren().clear();
-        tileGrid.setGridLinesVisible(true);
 
         for (DashboardCell cell : config.getCells()) {
             Node node = CellFactory.createCell(cell);
