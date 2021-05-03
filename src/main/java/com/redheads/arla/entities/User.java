@@ -5,11 +5,13 @@ public class User extends Entity {
     private String username;
     private String password;
     private boolean isAdmin;
+    private int configID;
 
-    public User(String username, String password, boolean isAdmin) {
+    public User(String username, String password, boolean isAdmin, int configID) {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.configID = configID;
     }
 
     public String getUsername() {
@@ -36,6 +38,15 @@ public class User extends Entity {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+        entityChanged();
+    }
+
+    public int getConfigID() {
+        return configID;
+    }
+
+    public void setConfigID(int configID) {
+        this.configID = configID;
         entityChanged();
     }
 

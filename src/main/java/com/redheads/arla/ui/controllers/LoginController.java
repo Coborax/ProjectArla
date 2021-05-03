@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.auth.AuthService;
+import com.redheads.arla.business.auth.UserSession;
 import com.redheads.arla.business.repo.RepoFacade;
+import com.redheads.arla.entities.User;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.ui.tasks.AuthenticateUserTask;
@@ -59,12 +61,14 @@ public class LoginController implements Initializable {
             try {
                 boolean authenticated = task.getValue();
                 if (authenticated) {
-                    boolean isAdmin = RepoFacade.getInstance().getUserRepo().get(usernameField.getText()).isAdmin();
+                    User user = RepoFacade.getInstance().getUserRepo().get(usernameField.getText());
+                    boolean isAdmin = user.isAdmin();
                     if (isAdmin) {
                         WindowManager.pushScene("adminView", 1280, 720);
                     } else {
                         WindowManager.pushScene("userView", 1280, 720);
                     }
+                    UserSession.getInstance().setCurrentUser(user);
                 } else {
                     DialogFactory.createInfoAlert("Username or password was incorrect");
                 }

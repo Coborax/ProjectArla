@@ -49,8 +49,9 @@ public class UserDataAccess implements IDataAccess<User> {
                     String username = resultSet.getString("Username");
                     String password = resultSet.getString("Password");
                     boolean isAdmin = resultSet.getBoolean("IsAdmin");
+                    int configID = resultSet.getInt("ConfigID");
 
-                    User user = new User(username, password, isAdmin);
+                    User user = new User(username, password, isAdmin, configID);
                     user.setId(id);
 
                     users.add(user);

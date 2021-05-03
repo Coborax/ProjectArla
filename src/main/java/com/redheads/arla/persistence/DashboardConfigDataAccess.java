@@ -63,8 +63,9 @@ public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
                            int row = cellResult.getInt("Row");
                            int colSpan = cellResult.getInt("ColumnSpan");
                            int rowSpan = cellResult.getInt("RowSpan");
+                           String contentPath = cellResult.getString("ContentPath");
 
-                           config.getCells().add(new DashboardCell(col, row, colSpan, rowSpan));
+                           config.getCells().add(new DashboardCell(col, row, colSpan, rowSpan, contentPath));
                        }
                    }
 

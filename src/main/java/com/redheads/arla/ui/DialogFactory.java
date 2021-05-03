@@ -62,7 +62,7 @@ public class DialogFactory {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
-                return new User(username.getText(), password.getText(), false);
+                return new User(username.getText(), password.getText(), false, -1);
             }
             return null;
         });

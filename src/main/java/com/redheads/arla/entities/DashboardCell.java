@@ -7,11 +7,15 @@ public class DashboardCell {
     private int colSpan;
     private int rowSpan;
 
-    public DashboardCell(int column, int row, int colSpan, int rowSpan) {
+    private String contentPath;
+    private ContentType contentType = ContentType.WEB;
+
+    public DashboardCell(int column, int row, int colSpan, int rowSpan, String contentPath) {
         this.column = column;
         this.row = row;
         this.colSpan = colSpan;
         this.rowSpan = rowSpan;
+        this.contentPath = contentPath;
     }
 
     public int getColumn() {
@@ -28,5 +32,13 @@ public class DashboardCell {
 
     public int getRowSpan() {
         return rowSpan;
+    }
+
+    public String getContentPath() {
+        return contentPath;
+    }
+
+    public ContentType getContentType() {
+        return contentType;
     }
 }
