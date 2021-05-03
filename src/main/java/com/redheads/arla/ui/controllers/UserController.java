@@ -54,7 +54,6 @@ public class UserController implements Initializable {
         Platform.runLater(() -> {
             config = repoFacade.getConfigRepo().get(UserSession.getInstance().getCurrentUser().getConfigID());
             setupGrid();
-            System.out.println(config.getRefreshRate());
 
             // Schedule the timer to update the ui at with the refresh rate set by the admin
             timer.scheduleAtFixedRate(task, 0, config.getRefreshRate());
