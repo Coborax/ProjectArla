@@ -14,6 +14,7 @@ com\redheads\arla\business\repo\ObservableRepo.class
 com\redheads\arla\entities\Entity.class
 com\redheads\arla\ui\models\ListSelectionModel.class
 com\redheads\arla\ui\models\UserManagementModel.class
+com\redheads\arla\ui\controllers\UserController$1.class
 com\redheads\arla\App.class
 com\redheads\arla\entities\DashboardConfig.class
 com\redheads\arla\ui\CellFactory.class
