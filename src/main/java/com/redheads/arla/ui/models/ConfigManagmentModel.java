@@ -6,6 +6,8 @@ import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.scene.control.MultipleSelectionModel;
 
+import java.util.Optional;
+
 public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
 
     private RepoFacade repoFacade;
@@ -22,7 +24,10 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
     }
 
     public void newConfig() {
-        repoFacade.getConfigRepo().add(new DashboardConfig("New Config", 1000));
+        Optional<DashboardConfig> config = DialogFactory.createConfigDialog().showAndWait();
+        if (config.isPresent()) {
+            repoFacade.getConfigRepo().add(config.get());
+        }
     }
 
     public void saveConfig() {
