@@ -15,11 +15,17 @@ import com.redheads.arla.ui.models.ConfigManagmentModel;
 import com.redheads.arla.ui.models.UserManagementModel;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -27,6 +33,8 @@ import java.util.ResourceBundle;
 
 public class AdminController implements Initializable, IRepoListener {
 
+    @FXML
+    private JFXTextField configNameField;
     @FXML
     private GridPane tileGrid;
     @FXML
@@ -68,6 +76,22 @@ public class AdminController implements Initializable, IRepoListener {
 
             userList.setItems(userObservableList);
             configList.setItems(configObservableList);
+        });
+
+        configList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DashboardConfig>() {
+            @Override
+            public void changed(ObservableValue<? extends DashboardConfig> observableValue, DashboardConfig dashboardConfig, DashboardConfig t1) {
+                if (t1 != null) {
+                    configNameField.setText(t1.getName());
+                }
+            }
+        });
+
+        configNameField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                configList.getSelectionModel().getSelectedItem().setName(t1);
+            }
         });
     }
 

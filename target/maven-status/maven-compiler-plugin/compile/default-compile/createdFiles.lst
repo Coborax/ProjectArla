@@ -11,6 +11,7 @@ com\redheads\arla\business\repo\DashboardConfigRepo.class
 com\redheads\arla\ui\controllers\UserController.class
 module-info.class
 com\redheads\arla\business\repo\ObservableRepo.class
+com\redheads\arla\ui\controllers\AdminController$2.class
 com\redheads\arla\entities\Entity.class
 com\redheads\arla\ui\models\ListSelectionModel.class
 com\redheads\arla\ui\models\UserManagementModel.class
@@ -32,3 +33,4 @@ com\redheads\arla\persistence\UserDataAccess.class
 com\redheads\arla\ui\CellFactory$1.class
 com\redheads\arla\util\config\ConfigReader.class
 com\redheads\arla\business\auth\AuthService.class
+com\redheads\arla\ui\controllers\AdminController$1.class
