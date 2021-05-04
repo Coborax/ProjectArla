@@ -16,10 +16,11 @@ import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.web.WebView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class UserController implements Initializable {
 
@@ -33,15 +34,28 @@ public class UserController implements Initializable {
     }
 
     private DashboardConfig config;
+    Timer timer = new Timer();
 
     @FXML
     private GridPane tileGrid;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Timer task that updates the UI.
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(()-> setupGrid());
+            }
+        };
+
         Platform.runLater(() -> {
             config = repoFacade.getConfigRepo().get(UserSession.getInstance().getCurrentUser().getConfigID());
             setupGrid();
+
+            // Schedule the timer to update the ui at with the refresh rate set by the admin
+            timer.scheduleAtFixedRate(task, 0, config.getRefreshRate());
         });
     }
 
