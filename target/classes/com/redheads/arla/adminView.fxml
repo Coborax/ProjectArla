@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -61,16 +62,35 @@
                         <VBox alignment="CENTER" prefHeight="682.0" prefWidth="1084.0" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXTextField fx:id="configNameField" alignment="CENTER" promptText="Config Name" />
-                              <VBox alignment="CENTER" prefHeight="580.0" prefWidth="1082.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                              <VBox alignment="CENTER" prefHeight="580.0" prefWidth="550.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets left="300.0" right="300.0" />
+                                    <Insets left="150.0" right="150.0" />
                                  </VBox.margin>
+                                 <children>
+                                    <Label text="Grid content" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <JFXListView fx:id="dashboardCells" prefHeight="492.0" prefWidth="450.0" HBox.hgrow="ALWAYS" />
+                                          <VBox prefHeight="529.0" prefWidth="97.0" spacing="5.0">
+                                             <children>
+                                                <JFXButton onAction="#addContent" prefHeight="41.0" prefWidth="101.0" text="Add" />
+                                                <JFXButton onAction="#editContent" prefHeight="41.0" prefWidth="104.0" text="Edit" />
+                                                <JFXButton onAction="#removeContent" prefHeight="41.0" prefWidth="104.0" text="Remove" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                               </VBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <JFXButton onAction="#newConfig" text="New User" />
                                     <JFXButton onAction="#saveConfig" text="Save all changes" />
                                     <JFXButton onAction="#deleteConfig" text="Delete User" />
+                                    <JFXButton onAction="#preview" text="Preview" />
                                  </children>
                               </HBox>
                            </children>
