@@ -1,6 +1,5 @@
 package com.redheads.arla.persistence;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.persistence.database.DBConnector;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
@@ -14,7 +13,7 @@ public class UserDataAccess implements IDataAccess<User> {
     private final String CREATE_SQL = "INSERT INTO Users (Username, Password, IsAdmin) VALUES (?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM Users WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM Users;";
-    private final String UPDATE_SQL = "UPDATE Users SET Username = ?, Password = ?, IsAdmin = ? WHERE ID = ?;";
+    private final String UPDATE_SQL = "UPDATE Users SET Username = ?, Password = ?, IsAdmin = ?, ConfigID = ? WHERE ID = ?;";
 
     private DBConnector dbConnector = new DBConnector();
 
@@ -80,7 +79,8 @@ public class UserDataAccess implements IDataAccess<User> {
             statement.setString(1, toUpdate.getUsername());
             statement.setString(2, toUpdate.getPassword());
             statement.setBoolean(3, toUpdate.isAdmin());
-            statement.setInt(4, toUpdate.getId());
+            statement.setInt(4, toUpdate.getConfigID());
+            statement.setInt(5, toUpdate.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DataAccessError("Could not update user: " + toUpdate + " in database", e);

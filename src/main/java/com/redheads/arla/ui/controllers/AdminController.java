@@ -1,6 +1,9 @@
 package com.redheads.arla.ui.controllers;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.business.repo.DashboardConfigRepo;
 import com.redheads.arla.business.repo.IRepo;
@@ -22,12 +25,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
+
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable, IRepoListener {
 
+    @FXML
+    private JFXComboBox<DashboardConfig> configSelection;
     @FXML
     private JFXListView dashboardCells;
     @FXML
@@ -71,13 +77,14 @@ public class AdminController implements Initializable, IRepoListener {
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         configObservableList.addAll(repoFacade.getConfigRepo().getAll());
         Platform.runLater(() -> {
-            userManagementModel = new UserManagementModel(userList.getSelectionModel());
+            userManagementModel = new UserManagementModel(userList.getSelectionModel(), configSelection.getSelectionModel());
             configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel(), dashboardCells.getSelectionModel());
             usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
             passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
 
             userList.setItems(userObservableList);
             configList.setItems(configObservableList);
+            configSelection.setItems(configObservableList);
             dashboardCells.setItems(selectedDashboardCells);
         });
 

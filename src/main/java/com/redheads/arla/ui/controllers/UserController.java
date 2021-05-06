@@ -55,7 +55,7 @@ public class UserController implements Initializable {
             setupGrid();
 
             // Schedule the timer to update the ui at with the refresh rate set by the admin
-            timer.scheduleAtFixedRate(task, 0, config.getRefreshRate());
+            timer.scheduleAtFixedRate(task, 0, config.getRefreshRate() * 1000);
         });
     }
 

@@ -48,11 +48,11 @@
             <version>1.5.2</version>
         </dependency>
 
-        <!-- TilesFX -->
+        <!-- OpenCSV -->
         <dependency>
-            <groupId>eu.hansolo</groupId>
-            <artifactId>tilesfx</artifactId>
-            <version>11.48</version>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
         </dependency>
 
         <!-- Junit -->
