@@ -4,6 +4,7 @@ com\redheads\arla\persistence\database\DBConnector.class
 com\redheads\arla\ui\WindowManager.class
 com\redheads\arla\business\events\IRepoListener.class
 com\redheads\arla\util\exceptions\persistence\DataAccessError.class
+com\redheads\arla\business\files\FileHelper.class
 com\redheads\arla\ui\controllers\EditConfigDetailsController$1.class
 com\redheads\arla\business\repo\ObservableRepo.class
 com\redheads\arla\entities\Entity.class

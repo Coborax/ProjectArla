@@ -7,6 +7,7 @@ import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.ui.CellFactory;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
+import com.redheads.arla.util.exceptions.persistence.CSVReadError;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -63,7 +64,12 @@ public class UserController implements Initializable {
         tileGrid.getChildren().clear();
 
         for (DashboardCell cell : config.getCells()) {
-            Node node = CellFactory.createCell(cell);
+            Node node = null;
+            try {
+                node = CellFactory.createCell(cell);
+            } catch (CSVReadError csvReadError) {
+                DialogFactory.createErrorAlert(csvReadError).showAndWait();
+            }
             tileGrid.add(node, cell.getColumn(), cell.getRow(), cell.getColSpan(), cell.getRowSpan());
         }
 

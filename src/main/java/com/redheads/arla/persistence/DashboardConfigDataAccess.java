@@ -1,5 +1,6 @@
 package com.redheads.arla.persistence;
 
+import com.redheads.arla.entities.ContentType;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.persistence.database.DBConnector;
@@ -19,7 +20,7 @@ public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
     private final String CREATE_CELL_SQL = "INSERT INTO DashboardCells (ConfigID, [Column], [Row], ColumnSpan, RowSpan, ContentPath) VALUES (?, ?, ?, ?, ?, ?);";
     private final String DELETE_CELL_SQL = "DELETE FROM DashboardCells WHERE ConfigID = ? AND [Column] = ? AND [Row] = ?;";
     private final String SELECT_ALL_CELLS_SQL = "SELECT * FROM DashboardCells WHERE ConfigID = ?;";
-    private final String UPDATE_CELL_SQL = "UPDATE DashboardCells SET ContentPath = ? WHERE ConfigID = ? AND [Column] = ? AND [Row] = ?;";
+    private final String UPDATE_CELL_SQL = "UPDATE DashboardCells SET ContentPath = ?, ContentType = ? WHERE ConfigID = ? AND [Column] = ? AND [Row] = ?;";
 
     private DBConnector dbConnector = new DBConnector();
 
@@ -83,8 +84,9 @@ public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
                            int colSpan = cellResult.getInt("ColumnSpan");
                            int rowSpan = cellResult.getInt("RowSpan");
                            String contentPath = cellResult.getString("ContentPath");
+                           ContentType contentType = ContentType.values()[cellResult.getInt("ContentType")];
 
-                           config.getCells().add(new DashboardCell(col, row, colSpan, rowSpan, contentPath));
+                           config.getCells().add(new DashboardCell(col, row, colSpan, rowSpan, contentPath, contentType));
                        }
                    }
 
@@ -126,9 +128,10 @@ public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement cellStatement = conn.prepareStatement(UPDATE_CELL_SQL);
             cellStatement.setString(1, cell.getContentPath());
-            cellStatement.setInt(2, configID);
-            cellStatement.setInt(3, cell.getColumn());
-            cellStatement.setInt(4, cell.getRow());
+            cellStatement.setInt(2, cell.getContentType().ordinal());
+            cellStatement.setInt(3, configID);
+            cellStatement.setInt(4, cell.getColumn());
+            cellStatement.setInt(5, cell.getRow());
             cellStatement.execute();
         } catch (SQLException e) {
             throw new DataAccessError("Could not update dashboard cell: " + cell + " in database", e);

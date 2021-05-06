@@ -1,11 +1,14 @@
 package com.redheads.arla.ui;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.redheads.arla.entities.ContentType;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.entities.User;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -200,6 +203,8 @@ public class DialogFactory {
         columnSpan.setPromptText("Column Span");
         JFXTextField rowSpan = new JFXTextField();
         rowSpan.setPromptText("Row Span");
+        JFXComboBox<ContentType> contentType = new JFXComboBox<>();
+        contentType.setItems(FXCollections.observableArrayList(ContentType.values()));
 
         //TODO: Add file select
         JFXTextField contentPath = new JFXTextField();
@@ -215,6 +220,8 @@ public class DialogFactory {
         grid.add(rowSpan, 1, 3);
         grid.add(new Label("Content Path:"), 0, 4);
         grid.add(contentPath, 1, 4);
+        grid.add(new Label("Content Type:"), 0, 5);
+        grid.add(contentType, 1, 5);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -225,7 +232,8 @@ public class DialogFactory {
                         Integer.parseInt(row.getText()),
                         Integer.parseInt(columnSpan.getText()),
                         Integer.parseInt(rowSpan.getText()),
-                        contentPath.getText());
+                        contentPath.getText(),
+                        contentType.getSelectionModel().getSelectedItem());
             }
             return null;
         });
@@ -259,6 +267,9 @@ public class DialogFactory {
         JFXTextField rowSpan = new JFXTextField();
         rowSpan.setPromptText("Row Span");
         rowSpan.textProperty().set(Integer.toString(cell.getRowSpan()));
+        JFXComboBox<ContentType> contentType = new JFXComboBox<>();
+        contentType.setItems(FXCollections.observableArrayList(ContentType.values()));
+        contentType.getSelectionModel().select(cell.getContentType());
 
         //TODO: Add file select
         JFXTextField contentPath = new JFXTextField();
@@ -275,6 +286,8 @@ public class DialogFactory {
         grid.add(rowSpan, 1, 3);
         grid.add(new Label("Content Path:"), 0, 4);
         grid.add(contentPath, 1, 4);
+        grid.add(new Label("Content Type:"), 0, 5);
+        grid.add(contentType, 1, 5);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -285,6 +298,7 @@ public class DialogFactory {
                 cell.setColSpan(Integer.parseInt(columnSpan.getText()));
                 cell.setRowSpan(Integer.parseInt(rowSpan.getText()));
                 cell.setContentPath(contentPath.getText());
+                cell.setContentType(contentType.getSelectionModel().getSelectedItem());
                 return true;
             }
             return false;

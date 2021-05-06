@@ -10,12 +10,13 @@ public class DashboardCell {
     private String contentPath;
     private ContentType contentType = ContentType.WEB;
 
-    public DashboardCell(int column, int row, int colSpan, int rowSpan, String contentPath) {
+    public DashboardCell(int column, int row, int colSpan, int rowSpan, String contentPath, ContentType contentType) {
         this.column = column;
         this.row = row;
         this.colSpan = colSpan;
         this.rowSpan = rowSpan;
         this.contentPath = contentPath;
+        this.contentType = contentType;
     }
 
     public int getColumn() {
