@@ -11,6 +11,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\Admi
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\Entity.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\LoginController.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\DBConfigReader.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\EditConfigDetailsController.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\models\ListSelectionModel.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardCell.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\User.java

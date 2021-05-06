@@ -1,8 +1,6 @@
 package com.redheads.arla.ui.controllers;
 
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.business.repo.DashboardConfigRepo;
 import com.redheads.arla.business.repo.IRepo;
@@ -24,8 +22,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable, IRepoListener {
@@ -60,6 +58,10 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
+
+    public static String configName;
+
+    public static int refreshRate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -132,6 +134,17 @@ public class AdminController implements Initializable, IRepoListener {
 
     public void deleteConfig(ActionEvent event) {
         configManagmentModel.deleteConfig();
+    }
+
+    public void editConfigDetails(ActionEvent actionEvent) {
+        Optional<DashboardConfig> result = DialogFactory.createConfigDialog(configList.getSelectionModel().getSelectedItem()).showAndWait();
+        if (result.isPresent()) {
+            try {
+                repoFacade.getConfigRepo().saveAllChanges();
+            } catch (DataAccessError dataAccessError) {
+                dataAccessError.printStackTrace();
+            }
+        }
     }
 
     public void addContent(ActionEvent event) {

@@ -90,6 +90,7 @@
                                     <JFXButton onAction="#newConfig" text="New User" />
                                     <JFXButton onAction="#saveConfig" text="Save all changes" />
                                     <JFXButton onAction="#deleteConfig" text="Delete User" />
+                                    <JFXButton layoutX="591.0" layoutY="42.0" onAction="#editConfigDetails" text="Edit Config Details" />
                                     <JFXButton onAction="#preview" text="Preview" />
                                  </children>
                               </HBox>

@@ -25,6 +25,10 @@ public class DashboardConfig extends Entity {
         this.name = name;
     }
 
+    public void setRefreshRate(int refreshRate) {
+        this.refreshRate = refreshRate;
+    }
+
     public int getRefreshRate() {
         return refreshRate;
     }
