@@ -178,6 +178,61 @@ public class DialogFactory {
         return dialog;
     }
 
+    public static Dialog<DashboardCell> createCellDialog() {
+        Dialog<DashboardCell> dialog = new Dialog<>();
+
+        // Set the button types.
+        ButtonType loginButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+        // Create the username and password labels and fields.
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        //TODO: Change to spinner perhaps
+        JFXTextField column = new JFXTextField();
+        column.setPromptText("Column");
+        JFXTextField row = new JFXTextField();
+        row.setPromptText("Row");
+        JFXTextField columnSpan = new JFXTextField();
+        columnSpan.setPromptText("Column Span");
+        JFXTextField rowSpan = new JFXTextField();
+        rowSpan.setPromptText("Row Span");
+
+        //TODO: Add file select
+        JFXTextField contentPath = new JFXTextField();
+        contentPath.setPromptText("Content Path");
+
+        grid.add(new Label("Column:"), 0, 0);
+        grid.add(column, 1, 0);
+        grid.add(new Label("Row:"), 0, 1);
+        grid.add(row, 1, 1);
+        grid.add(new Label("Column Span:"), 0, 2);
+        grid.add(columnSpan, 1, 2);
+        grid.add(new Label("Row Span:"), 0, 3);
+        grid.add(rowSpan, 1, 3);
+        grid.add(new Label("Content Path:"), 0, 4);
+        grid.add(contentPath, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new DashboardCell(
+                        Integer.parseInt(column.getText()),
+                        Integer.parseInt(row.getText()),
+                        Integer.parseInt(columnSpan.getText()),
+                        Integer.parseInt(rowSpan.getText()),
+                        contentPath.getText());
+            }
+            return null;
+        });
+
+        return dialog;
+    }
+
     public static Dialog<Boolean> createEditCellDialog(DashboardCell cell) {
         Dialog<Boolean> dialog = new Dialog();
 

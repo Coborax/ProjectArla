@@ -145,6 +145,7 @@ public class AdminController implements Initializable, IRepoListener {
                 dataAccessError.printStackTrace();
             }
         }
+    }
 
     public void addContent(ActionEvent event) {
         configManagmentModel.addContent();
