@@ -6,6 +6,7 @@ import com.redheads.arla.business.repo.DashboardConfigRepo;
 import com.redheads.arla.business.repo.IRepo;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.business.repo.UserRepo;
+import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.ui.DialogFactory;
@@ -27,6 +28,8 @@ import java.util.ResourceBundle;
 
 public class AdminController implements Initializable, IRepoListener {
 
+    @FXML
+    private JFXListView dashboardCells;
     @FXML
     private JFXTextField configNameField;
     @FXML
@@ -54,6 +57,7 @@ public class AdminController implements Initializable, IRepoListener {
 
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
+    private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
 
     public static String configName;
 
@@ -68,14 +72,33 @@ public class AdminController implements Initializable, IRepoListener {
         configObservableList.addAll(repoFacade.getConfigRepo().getAll());
         Platform.runLater(() -> {
             userManagementModel = new UserManagementModel(userList.getSelectionModel());
-            configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel());
+            configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel(), dashboardCells.getSelectionModel());
             usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
             passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
 
             userList.setItems(userObservableList);
             configList.setItems(configObservableList);
+            dashboardCells.setItems(selectedDashboardCells);
         });
 
+        //TODO: Move this into ConfigManagmentModel (Probably as a property, so we can bind it)
+        configList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DashboardConfig>() {
+            @Override
+            public void changed(ObservableValue<? extends DashboardConfig> observableValue, DashboardConfig dashboardConfig, DashboardConfig t1) {
+                if (t1 != null) {
+                    configNameField.setText(t1.getName());
+                    selectedDashboardCells.clear();
+                    selectedDashboardCells.addAll(t1.getCells());
+                }
+            }
+        });
+
+        configNameField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                configList.getSelectionModel().getSelectedItem().setName(t1);
+            }
+        });
     }
 
     public void newUser(ActionEvent event) {
@@ -123,5 +146,19 @@ public class AdminController implements Initializable, IRepoListener {
             }
         }
 
+    public void addContent(ActionEvent event) {
+        configManagmentModel.addContent();
+    }
+
+    public void editContent(ActionEvent event) {
+        configManagmentModel.editContent();
+    }
+
+    public void removeContent(ActionEvent event) {
+        configManagmentModel.removeContent();
+    }
+
+    public void preview(ActionEvent event) {
+        configManagmentModel.preview();
     }
 }

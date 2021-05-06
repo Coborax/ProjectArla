@@ -94,6 +94,9 @@ public class UserController implements Initializable {
 
     public void logout(ActionEvent actionEvent) {
         WindowManager.popScene();
-        UserSession.getInstance().setCurrentUser(null);
+        // Only remove user session if the user is not admin. As admins will be returned to the configuration screen.
+        if (!UserSession.getInstance().getCurrentUser().isAdmin()) {
+            UserSession.getInstance().setCurrentUser(null);
+        }
     }
 }

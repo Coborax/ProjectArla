@@ -41,4 +41,33 @@ public class DashboardCell {
     public ContentType getContentType() {
         return contentType;
     }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColSpan(int colSpan) {
+        this.colSpan = colSpan;
+    }
+
+    public void setRowSpan(int rowSpan) {
+        this.rowSpan = rowSpan;
+    }
+
+    public void setContentPath(String contentPath) {
+        this.contentPath = contentPath;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
+
+    @Override
+    public String toString() {
+        return "Row: " + row + ", Column: " + column + ", Row span: " + rowSpan + ", Column Span: " + colSpan + ", Content Type: " + contentType;
+    }
 }

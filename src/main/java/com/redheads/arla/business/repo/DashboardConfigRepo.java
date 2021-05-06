@@ -1,8 +1,8 @@
 package com.redheads.arla.business.repo;
 
+import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.persistence.DashboardConfigDataAccess;
-import com.redheads.arla.persistence.IDataAccess;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
     private List<DashboardConfig> newConfigs = new ArrayList<>();
     private List<DashboardConfig> deletedConfigs = new ArrayList<>();
 
-    private IDataAccess<DashboardConfig> configDataAccess = new DashboardConfigDataAccess();
+    private DashboardConfigDataAccess configDataAccess = new DashboardConfigDataAccess();
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
     public DashboardConfigRepo() throws DataAccessError {
@@ -59,8 +59,20 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
     public void saveAllChanges() throws DataAccessError {
         try {
             for (DashboardConfig config : dashboardConfigs) {
+                for (DashboardCell cell : config.getCells()) {
+                    if (!config.getNewCells().contains(cell)) {
+                        configDataAccess.updateCell(config.getId(), cell);
+                    }
+                }
                 if (config.getLastUpdated().isAfter(lastUpdated)) {
                     configDataAccess.update(config);
+                    for (DashboardCell cell : config.getNewCells()) {
+                        configDataAccess.createCell(config.getId(), cell);
+                    }
+                    for (DashboardCell cell : config.getDeletedCells()) {
+                        configDataAccess.deleteCell(config.getId(), cell);
+                    }
+                    config.getNewCells().clear();
                 }
             }
             lastUpdated = LocalDateTime.now();
