@@ -1,8 +1,6 @@
 package com.redheads.arla.ui.controllers;
 
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.redheads.arla.business.events.IRepoListener;
 import com.redheads.arla.business.repo.DashboardConfigRepo;
 import com.redheads.arla.business.repo.IRepo;
@@ -20,15 +18,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable, IRepoListener {
@@ -61,6 +55,10 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
 
+    public static String configName;
+
+    public static int refreshRate;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         repoFacade.getUserRepo().subscribe(this);
@@ -78,21 +76,6 @@ public class AdminController implements Initializable, IRepoListener {
             configList.setItems(configObservableList);
         });
 
-        configList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DashboardConfig>() {
-            @Override
-            public void changed(ObservableValue<? extends DashboardConfig> observableValue, DashboardConfig dashboardConfig, DashboardConfig t1) {
-                if (t1 != null) {
-                    configNameField.setText(t1.getName());
-                }
-            }
-        });
-
-        configNameField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                configList.getSelectionModel().getSelectedItem().setName(t1);
-            }
-        });
     }
 
     public void newUser(ActionEvent event) {
@@ -128,5 +111,17 @@ public class AdminController implements Initializable, IRepoListener {
 
     public void deleteConfig(ActionEvent event) {
         configManagmentModel.deleteConfig();
+    }
+
+    public void editConfigDetails(ActionEvent actionEvent) {
+        Optional<DashboardConfig> result = DialogFactory.createConfigDialog(configList.getSelectionModel().getSelectedItem()).showAndWait();
+        if (result.isPresent()) {
+            try {
+                repoFacade.getConfigRepo().saveAllChanges();
+            } catch (DataAccessError dataAccessError) {
+                dataAccessError.printStackTrace();
+            }
+        }
+
     }
 }
