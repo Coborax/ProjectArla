@@ -58,6 +58,15 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
     @Override
     public void saveAllChanges() throws DataAccessError {
         try {
+            lastUpdated = LocalDateTime.now();
+
+            for (DashboardConfig config : newConfigs) {
+                configDataAccess.create(config);
+            }
+            for (DashboardConfig config : deletedConfigs) {
+                configDataAccess.delete(config);
+            }
+
             for (DashboardConfig config : dashboardConfigs) {
                 if (config.getLastUpdated().isAfter(lastUpdated)) {
                     for (DashboardCell cell : config.getNewCells()) {
@@ -75,14 +84,7 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
                 }
                 config.getNewCells().clear();
             }
-            lastUpdated = LocalDateTime.now();
 
-            for (DashboardConfig config : newConfigs) {
-                configDataAccess.create(config);
-            }
-            for (DashboardConfig config : deletedConfigs) {
-                configDataAccess.delete(config);
-            }
             newConfigs.clear();
             deletedConfigs.clear();
         } catch (DataAccessError e) {
