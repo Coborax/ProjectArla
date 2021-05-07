@@ -1,0 +1,13 @@
+SCRUM Review #1 7/5-2021
+------------------------
+- Kandidat til user story (Dynamic content)
+- Brug kundes begreper så meget som muligt
+- Select file (Browse for file)
+- Add data som er relevant for kunden
+
+- Hvad kan vi finde på til næste sprint
+- Tilføj billede
+- Tilføj tekst som kan defineres (Specifikke beskeder til specifikke tidspunkter) (Tilføje farve ifht. hvor kritisk det er)
+- Update time per tile (Måske hvis der er tid)
+- Brugervenlighed (Hvad er en konfiguration)
+- ID skal fjernes hvis det ikke har funktion
