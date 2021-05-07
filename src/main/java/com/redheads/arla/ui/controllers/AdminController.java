@@ -13,6 +13,7 @@ import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.ui.DialogFactory;
+import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.ui.models.ConfigManagmentModel;
 import com.redheads.arla.ui.models.UserManagementModel;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
@@ -168,5 +169,9 @@ public class AdminController implements Initializable, IRepoListener {
 
     public void preview(ActionEvent event) {
         configManagmentModel.preview();
+    }
+
+    public void logout(ActionEvent event) {
+        WindowManager.popScene();
     }
 }
