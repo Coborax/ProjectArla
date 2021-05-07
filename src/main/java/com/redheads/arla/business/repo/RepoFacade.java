@@ -23,8 +23,8 @@ public class RepoFacade {
      * Saves all changes in all repos
      */
     public void saveChanges() throws DataAccessError {
-        userRepo.saveAllChanges();
         configRepo.saveAllChanges();
+        userRepo.saveAllChanges();
     }
 
     public UserRepo getUserRepo() {
