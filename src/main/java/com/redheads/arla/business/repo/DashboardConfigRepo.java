@@ -59,11 +59,6 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
     public void saveAllChanges() throws DataAccessError {
         try {
             for (DashboardConfig config : dashboardConfigs) {
-                for (DashboardCell cell : config.getCells()) {
-                    if (!config.getNewCells().contains(cell)) {
-                        configDataAccess.updateCell(config.getId(), cell);
-                    }
-                }
                 if (config.getLastUpdated().isAfter(lastUpdated)) {
                     configDataAccess.update(config);
                     for (DashboardCell cell : config.getNewCells()) {
@@ -72,8 +67,13 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
                     for (DashboardCell cell : config.getDeletedCells()) {
                         configDataAccess.deleteCell(config.getId(), cell);
                     }
-                    config.getNewCells().clear();
                 }
+                for (DashboardCell cell : config.getCells()) {
+                    if (!config.getNewCells().contains(cell)) {
+                        configDataAccess.updateCell(config.getId(), cell);
+                    }
+                }
+                config.getNewCells().clear();
             }
             lastUpdated = LocalDateTime.now();
 
