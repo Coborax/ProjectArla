@@ -3,6 +3,7 @@ package com.redheads.arla.ui;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.redheads.arla.business.auth.AuthService;
 import com.redheads.arla.entities.ContentType;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
@@ -70,7 +71,8 @@ public class DialogFactory {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
-                return new User(username.getText(), password.getText(), false, -1);
+                AuthService service = new AuthService();
+                return new User(username.getText(), service.hashPassword(password.getText()), false, -1);
             }
             return null;
         });
