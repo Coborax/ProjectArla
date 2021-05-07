@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserDataAccess implements IDataAccess<User> {
 
-    private final String CREATE_SQL = "INSERT INTO Users (Username, Password, IsAdmin) VALUES (?, ?, ?);";
+    private final String CREATE_SQL = "INSERT INTO Users (Username, Password, IsAdmin, ConfigID) VALUES (?, ?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM Users WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM Users;";
     private final String UPDATE_SQL = "UPDATE Users SET Username = ?, Password = ?, IsAdmin = ?, ConfigID = ? WHERE ID = ?;";
@@ -24,6 +24,7 @@ public class UserDataAccess implements IDataAccess<User> {
             statement.setString(1, toCreate.getUsername());
             statement.setString(2, toCreate.getPassword());
             statement.setBoolean(3, toCreate.isAdmin());
+            statement.setInt(4, toCreate.getConfigID());
 
             statement.execute();
 
