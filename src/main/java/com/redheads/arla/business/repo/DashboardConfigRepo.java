@@ -60,13 +60,13 @@ public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
         try {
             for (DashboardConfig config : dashboardConfigs) {
                 if (config.getLastUpdated().isAfter(lastUpdated)) {
-                    configDataAccess.update(config);
                     for (DashboardCell cell : config.getNewCells()) {
                         configDataAccess.createCell(config.getId(), cell);
                     }
                     for (DashboardCell cell : config.getDeletedCells()) {
                         configDataAccess.deleteCell(config.getId(), cell);
                     }
+                    configDataAccess.update(config);
                 }
                 for (DashboardCell cell : config.getCells()) {
                     if (!config.getNewCells().contains(cell)) {
