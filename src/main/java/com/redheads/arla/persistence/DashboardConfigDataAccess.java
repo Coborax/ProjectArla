@@ -43,6 +43,7 @@ public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
     }
 
     public void createCell(int configID, DashboardCell cell) throws DataAccessError {
+        System.out.println("Creating cell");
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(CREATE_CELL_SQL);
             statement.setInt(1, configID);
