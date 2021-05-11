@@ -66,12 +66,12 @@ public class DashboardMessageDataAccess implements IDataAccess<DashboardMessage>
             e.printStackTrace();
             throw new DataAccessError("Could not select all dashboard messages from database", e);
         }
-        return users;
+        return messages;
     }
 
     @Override
     public DashboardMessage read(int id) {
-
+        return null;
     }
 
     @Override

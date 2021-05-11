@@ -4,6 +4,7 @@ import com.redheads.arla.business.auth.UserSession;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
+import com.redheads.arla.entities.DashboardMessage;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
@@ -24,10 +25,14 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
     }
 
     MultipleSelectionModel<DashboardCell> selectionModelCell;
+    MultipleSelectionModel<DashboardMessage> selectionModelMessages;
 
-    public ConfigManagmentModel(MultipleSelectionModel<DashboardConfig> selectionModel, MultipleSelectionModel<DashboardCell> selectionModelCell) {
+    public ConfigManagmentModel(MultipleSelectionModel<DashboardConfig> selectionModel,
+                                MultipleSelectionModel<DashboardCell> selectionModelCell,
+                                MultipleSelectionModel<DashboardMessage> selectionModelMessages) {
         super(selectionModel);
         this.selectionModelCell = selectionModelCell;
+        this.selectionModelMessages = selectionModelMessages;
     }
 
     public void newConfig() {
@@ -38,12 +43,14 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
     }
 
     public void saveConfig() {
+        DashboardConfig config = getSelectedItem();
         try {
             repoFacade.saveChanges();
         } catch (DataAccessError dataAccessError) {
             dataAccessError.printStackTrace();
             DialogFactory.createErrorAlert(dataAccessError);
         }
+        getSelectionModel().select(config);
     }
 
     public void deleteConfig() {
@@ -73,5 +80,14 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         } catch (IOException e) {
             DialogFactory.createErrorAlert(e).showAndWait();
         }
+    }
+
+    public void addMessage() {
+    }
+
+    public void editMessage() {
+    }
+
+    public void removeMessage() {
     }
 }

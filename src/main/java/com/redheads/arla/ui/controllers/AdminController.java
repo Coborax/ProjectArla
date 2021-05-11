@@ -34,6 +34,8 @@ import java.util.ResourceBundle;
 public class AdminController implements Initializable, IRepoListener {
 
     @FXML
+    private JFXListView dashboardMessages;
+    @FXML
     private JFXComboBox<DashboardConfig> configSelection;
     @FXML
     private JFXListView dashboardCells;
@@ -79,7 +81,7 @@ public class AdminController implements Initializable, IRepoListener {
         configObservableList.addAll(repoFacade.getConfigRepo().getAll());
         Platform.runLater(() -> {
             userManagementModel = new UserManagementModel(userList.getSelectionModel(), configSelection.getSelectionModel());
-            configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel(), dashboardCells.getSelectionModel());
+            configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel(), dashboardCells.getSelectionModel(), dashboardMessages.getSelectionModel());
             usernameField.textProperty().bindBidirectional(userManagementModel.usernameProperty());
             passwordField.textProperty().bindBidirectional(userManagementModel.passwordProperty());
 
@@ -144,6 +146,7 @@ public class AdminController implements Initializable, IRepoListener {
         configManagmentModel.deleteConfig();
     }
 
+    //TODO: Move to model
     public void editConfigDetails(ActionEvent actionEvent) {
         Optional<DashboardConfig> result = DialogFactory.createConfigDialog(configList.getSelectionModel().getSelectedItem()).showAndWait();
         if (result.isPresent()) {
@@ -173,5 +176,17 @@ public class AdminController implements Initializable, IRepoListener {
 
     public void logout(ActionEvent event) {
         WindowManager.popScene();
+    }
+
+    public void addMessage(ActionEvent event) {
+        configManagmentModel.addMessage();
+    }
+
+    public void editMessage(ActionEvent event) {
+        configManagmentModel.editMessage();
+    }
+
+    public void removeMessage(ActionEvent event) {
+        configManagmentModel.removeMessage();
     }
 }
