@@ -65,29 +65,53 @@
                         <VBox alignment="CENTER" prefHeight="682.0" prefWidth="1084.0" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXTextField fx:id="configNameField" alignment="CENTER" promptText="Config Name" />
-                              <VBox alignment="CENTER" prefHeight="580.0" prefWidth="550.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                              <HBox prefWidth="802.0" spacing="20.0" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets left="150.0" right="150.0" />
+                                    <Insets left="30.0" right="30.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Label text="Grid content" />
-                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                    <VBox alignment="CENTER" prefHeight="580.0" prefWidth="550.0" spacing="5.0">
                                        <children>
-                                          <JFXListView fx:id="dashboardCells" prefHeight="492.0" prefWidth="450.0" HBox.hgrow="ALWAYS" />
-                                          <VBox prefHeight="529.0" prefWidth="97.0" spacing="5.0">
+                                          <Label text="Grid content" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <JFXButton onAction="#addContent" prefHeight="41.0" prefWidth="101.0" text="Add" />
-                                                <JFXButton onAction="#editContent" prefHeight="41.0" prefWidth="104.0" text="Edit" />
-                                                <JFXButton onAction="#removeContent" prefHeight="41.0" prefWidth="104.0" text="Remove" />
+                                                <JFXListView fx:id="dashboardCells" prefHeight="519.0" prefWidth="354.0" HBox.hgrow="ALWAYS" />
+                                                <VBox prefHeight="529.0" prefWidth="97.0" spacing="5.0">
+                                                   <children>
+                                                      <JFXButton onAction="#addContent" prefHeight="41.0" prefWidth="101.0" text="Add" />
+                                                      <JFXButton onAction="#editContent" prefHeight="41.0" prefWidth="104.0" text="Edit" />
+                                                      <JFXButton onAction="#removeContent" prefHeight="41.0" prefWidth="104.0" text="Remove" />
+                                                   </children>
+                                                </VBox>
                                              </children>
-                                          </VBox>
+                                          </HBox>
                                        </children>
-                                    </HBox>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox alignment="CENTER" prefHeight="580.0" prefWidth="550.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Dashboard Messages" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <JFXListView fx:id="dashboardMessages" prefHeight="519.0" prefWidth="365.0" HBox.hgrow="ALWAYS" />
+                                                <VBox prefHeight="529.0" prefWidth="97.0" spacing="5.0">
+                                                   <children>
+                                                      <JFXButton onAction="#addMessage" prefHeight="41.0" prefWidth="101.0" text="Add" />
+                                                      <JFXButton onAction="#editMessage" prefHeight="41.0" prefWidth="104.0" text="Edit" />
+                                                      <JFXButton onAction="#removeMessage" prefHeight="41.0" prefWidth="104.0" text="Remove" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                              </VBox>
+                              </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <JFXButton onAction="#newConfig" text="New Config" />
