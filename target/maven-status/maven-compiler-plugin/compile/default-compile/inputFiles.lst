@@ -18,6 +18,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\models\ListSelec
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardCell.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\User.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\App.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\PDFReadError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardConfig.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\events\IRepoListener.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\CellFactory.java

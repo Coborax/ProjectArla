@@ -30,6 +30,7 @@ com\redheads\arla\ui\controllers\UserController.class
 module-info.class
 com\redheads\arla\ui\models\ListSelectionModel.class
 com\redheads\arla\ui\controllers\UserController$1.class
+com\redheads\arla\util\exceptions\persistence\PDFReadError.class
 com\redheads\arla\ui\models\ConfigManagmentModel.class
 com\redheads\arla\ui\DialogFactory.class
 com\redheads\arla\util\config\DBConfigReader.class
