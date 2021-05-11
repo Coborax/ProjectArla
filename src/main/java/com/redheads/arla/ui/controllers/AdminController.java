@@ -66,8 +66,8 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
 
+    //TODO: Fix this
     public static String configName;
-
     public static int refreshRate;
 
     @Override

@@ -28,6 +28,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\per
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\ConfigReader.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\ContentType.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\auth\UserSession.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\SimpleRepo.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\DialogFactory.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\ICsvLoader.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\UserController.java

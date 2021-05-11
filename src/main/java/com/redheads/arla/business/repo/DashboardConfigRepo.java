@@ -6,89 +6,54 @@ import com.redheads.arla.persistence.DashboardConfigDataAccess;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardConfigRepo extends ObservableRepo<DashboardConfig> {
+public class DashboardConfigRepo extends SimpleRepo<DashboardConfig> {
 
-    private List<DashboardConfig> dashboardConfigs = new ArrayList<>();
-    private List<DashboardConfig> newConfigs = new ArrayList<>();
-    private List<DashboardConfig> deletedConfigs = new ArrayList<>();
+    private List<DashboardConfig> dashboardConfigs;
+    private List<DashboardConfig> newConfigs;
+    private List<DashboardConfig> deletedConfigs;
 
-    private DashboardConfigDataAccess configDataAccess = new DashboardConfigDataAccess();
-    private LocalDateTime lastUpdated = LocalDateTime.now();
+    private DashboardConfigDataAccess dataAccess = new DashboardConfigDataAccess();
 
     public DashboardConfigRepo() throws DataAccessError {
-        dashboardConfigs.addAll(configDataAccess.readAll());
-    }
-
-    @Override
-    public List<DashboardConfig> getAll() {
-        return dashboardConfigs;
-    }
-
-    @Override
-    public DashboardConfig get(int id) {
-        for (DashboardConfig config : dashboardConfigs) {
-            if (config.getId() == id) {
-                return config;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void add(DashboardConfig toAdd) {
-        dashboardConfigs.add(toAdd);
-        if (toAdd.getId() == -1) {
-            newConfigs.add(toAdd);
-        }
-        notifyRepoChange();
-    }
-
-    @Override
-    public void remove(DashboardConfig toRemove) {
-        dashboardConfigs.remove(toRemove);
-        if (toRemove.getId() != -1) {
-            deletedConfigs.add(toRemove);
-        }
-        notifyRepoChange();
+        dashboardConfigs = getEntities();
+        newConfigs = getNewEntities();
+        deletedConfigs = getDeletedEntities();
+        setDataAccess(dataAccess);
+        dashboardConfigs.addAll(dataAccess.readAll());
     }
 
     @Override
     public void saveAllChanges() throws DataAccessError {
-        try {
-            for (DashboardConfig config : newConfigs) {
-                configDataAccess.create(config);
-            }
-            for (DashboardConfig config : deletedConfigs) {
-                configDataAccess.delete(config);
-            }
-
-            for (DashboardConfig config : dashboardConfigs) {
-                if (config.getLastUpdated().isAfter(lastUpdated)) {
-                    for (DashboardCell cell : config.getNewCells()) {
-                        configDataAccess.createCell(config.getId(), cell);
-                    }
-                    for (DashboardCell cell : config.getDeletedCells()) {
-                        configDataAccess.deleteCell(config.getId(), cell);
-                    }
-                    configDataAccess.update(config);
-                }
-                for (DashboardCell cell : config.getCells()) {
-                    if (!config.getNewCells().contains(cell)) {
-                        configDataAccess.updateCell(config.getId(), cell);
-                    }
-                }
-                config.getNewCells().clear();
-            }
-
-            lastUpdated = LocalDateTime.now();
-            newConfigs.clear();
-            deletedConfigs.clear();
-        } catch (DataAccessError e) {
-            throw e;
+        for (DashboardConfig config : newConfigs) {
+            dataAccess.create(config);
         }
+        for (DashboardConfig config : deletedConfigs) {
+            dataAccess.delete(config);
+        }
+
+        for (DashboardConfig config : dashboardConfigs) {
+            if (config.getLastUpdated().isAfter(getLastUpdated())) {
+                for (DashboardCell cell : config.getNewCells()) {
+                    dataAccess.createCell(config.getId(), cell);
+                }
+                for (DashboardCell cell : config.getDeletedCells()) {
+                    dataAccess.deleteCell(config.getId(), cell);
+                }
+                dataAccess.update(config);
+            }
+            for (DashboardCell cell : config.getCells()) {
+                if (!config.getNewCells().contains(cell)) {
+                    dataAccess.updateCell(config.getId(), cell);
+                }
+            }
+            config.getNewCells().clear();
+        }
+
+        setLastUpdated(LocalDateTime.now());
+        newConfigs.clear();
+        deletedConfigs.clear();
         notifyRepoChange();
     }
 }

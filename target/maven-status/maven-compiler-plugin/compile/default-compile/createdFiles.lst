@@ -19,6 +19,7 @@ com\redheads\arla\business\repo\UserRepo.class
 com\redheads\arla\persistence\DashboardConfigDataAccess.class
 com\redheads\arla\entities\User.class
 com\redheads\arla\ui\controllers\AdminController.class
+com\redheads\arla\business\repo\SimpleRepo.class
 com\redheads\arla\ui\controllers\EditConfigDetailsController$2.class
 com\redheads\arla\persistence\IDataAccess.class
 com\redheads\arla\persistence\files\OpenCsvLoader.class
