@@ -16,6 +16,7 @@ com\redheads\arla\entities\ContentType.class
 com\redheads\arla\util\exceptions\persistence\CSVReadError.class
 com\redheads\arla\ui\controllers\EditConfigDetailsController.class
 com\redheads\arla\business\repo\UserRepo.class
+com\redheads\arla\entities\DashboardMessage.class
 com\redheads\arla\persistence\DashboardConfigDataAccess.class
 com\redheads\arla\entities\User.class
 com\redheads\arla\ui\controllers\AdminController.class
@@ -28,9 +29,11 @@ com\redheads\arla\entities\DashboardCell.class
 com\redheads\arla\business\repo\DashboardConfigRepo.class
 com\redheads\arla\ui\controllers\UserController.class
 module-info.class
+com\redheads\arla\business\repo\MessageRepo.class
 com\redheads\arla\ui\models\ListSelectionModel.class
 com\redheads\arla\ui\controllers\UserController$1.class
 com\redheads\arla\ui\models\ConfigManagmentModel.class
+com\redheads\arla\entities\MessageType.class
 com\redheads\arla\ui\DialogFactory.class
 com\redheads\arla\util\config\DBConfigReader.class
 com\redheads\arla\business\auth\UserSession.class

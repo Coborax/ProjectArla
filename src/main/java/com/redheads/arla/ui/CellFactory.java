@@ -53,8 +53,6 @@ public class CellFactory {
             }
         }
 
-
-
         chart.getData().addAll(series);
 
         return chart;
