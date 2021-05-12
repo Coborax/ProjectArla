@@ -149,10 +149,9 @@ public class CellFactory {
             tableView.getItems().add(values);
         }
 
+        tableView.getItems().remove(0);
 
         return tableView;
     }
-
-
-
+    
 }
