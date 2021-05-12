@@ -88,7 +88,6 @@ public class CellFactory {
                         value = Double.sum(value, Double.parseDouble(entry.get(i)));
                     }
                 }
-                System.out.println(i + ": " + value);
             }
 
             // Creates new piechart data and adds it to the observable list of data
