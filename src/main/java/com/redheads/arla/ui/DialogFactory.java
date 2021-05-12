@@ -298,10 +298,11 @@ public class DialogFactory {
     private static void createFileChooser(JFXTextField contentPath, JFXButton choosePath) {
         FileChooser fileChooser = new FileChooser();
 
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
-                , new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
-        );
+        // File extension filters with the possible file types
+        FileChooser.ExtensionFilter fileExtensions =
+                new FileChooser.ExtensionFilter("All Files","*.csv", ".xlsx", "*.jpg", "*.png", "*.jpeg", "*.html");
+
+        fileChooser.getExtensionFilters().add(fileExtensions);
 
         choosePath.setOnAction(new EventHandler<ActionEvent>() {
             @Override

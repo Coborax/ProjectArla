@@ -18,6 +18,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -67,7 +68,7 @@ public class UserController implements Initializable {
             Node node = null;
             try {
                 node = CellFactory.createCell(cell);
-            } catch (CSVReadError csvReadError) {
+            } catch (CSVReadError | FileNotFoundException csvReadError) {
                 DialogFactory.createErrorAlert(csvReadError).showAndWait();
             }
             tileGrid.add(node, cell.getColumn(), cell.getRow(), cell.getColSpan(), cell.getRowSpan());
