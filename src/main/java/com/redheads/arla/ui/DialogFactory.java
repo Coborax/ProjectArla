@@ -259,9 +259,7 @@ public class DialogFactory {
         JFXButton choosePath = new JFXButton("Choose...");
 
         createFileChooser(contentPath, choosePath);
-
         addElementsToGrid(grid, column, row, columnSpan, rowSpan, contentType, contentPath, choosePath);
-
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
@@ -280,6 +278,10 @@ public class DialogFactory {
         return dialog;
     }
 
+    /**
+     * Create dialog grid pane
+     * @return the created grid pane
+     */
     private static GridPane createGridPane() {
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -288,6 +290,11 @@ public class DialogFactory {
         return grid;
     }
 
+    /**
+     * Creates a file chooser dialog
+     * @param contentPath text field where the file path should be placed in
+     * @param choosePath Button which opens the file chooser dialog
+     */
     private static void createFileChooser(JFXTextField contentPath, JFXButton choosePath) {
         FileChooser fileChooser = new FileChooser();
 
@@ -307,6 +314,17 @@ public class DialogFactory {
         });
     }
 
+    /**
+     * Adds elements to the given grid
+     * @param grid grid to be added to
+     * @param column column location test field
+     * @param row row location test field
+     * @param columnSpan tile length test field
+     * @param rowSpan tile width test field
+     * @param contentType type of content to be added
+     * @param contentPath path of content text field
+     * @param choosePath choose file button
+     */
     private static void addElementsToGrid(GridPane grid, JFXTextField column, JFXTextField row, JFXTextField columnSpan, JFXTextField rowSpan, JFXComboBox<ContentType> contentType, JFXTextField contentPath, JFXButton choosePath) {
         grid.add(new Label("Column:"), 0, 0);
         grid.add(column, 1, 0);
