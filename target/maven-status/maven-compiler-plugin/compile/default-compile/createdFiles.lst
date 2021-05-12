@@ -1,4 +1,5 @@
 com\redheads\arla\ui\controllers\LoginController.class
+com\redheads\arla\ui\DialogFactory$1.class
 com\redheads\arla\business\repo\IRepo.class
 com\redheads\arla\persistence\database\DBConnector.class
 com\redheads\arla\ui\WindowManager.class
