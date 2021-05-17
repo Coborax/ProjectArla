@@ -79,6 +79,7 @@ public class AdminController implements Initializable, IRepoListener {
 
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         configObservableList.addAll(repoFacade.getConfigRepo().getAll());
+
         Platform.runLater(() -> {
             userManagementModel = new UserManagementModel(userList.getSelectionModel(), configSelection.getSelectionModel());
             configManagmentModel = new ConfigManagmentModel(configList.getSelectionModel(), dashboardCells.getSelectionModel(), dashboardMessages.getSelectionModel());

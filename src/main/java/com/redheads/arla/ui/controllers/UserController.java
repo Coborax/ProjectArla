@@ -9,7 +9,6 @@ import com.redheads.arla.entities.MessageType;
 import com.redheads.arla.ui.CellFactory;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
-import com.redheads.arla.util.exceptions.persistence.CSVReadError;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -23,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -76,8 +76,8 @@ public class UserController implements Initializable {
             Node node = null;
             try {
                 node = CellFactory.createCell(cell);
-            } catch (CSVReadError csvReadError) {
-                DialogFactory.createErrorAlert(csvReadError).showAndWait();
+            } catch (Exception e) {
+                DialogFactory.createErrorAlert(e).showAndWait();
             }
             tileGrid.add(node, cell.getColumn(), cell.getRow(), cell.getColSpan(), cell.getRowSpan());
         }

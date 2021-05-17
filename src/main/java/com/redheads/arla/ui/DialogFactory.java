@@ -1,33 +1,43 @@
 package com.redheads.arla.ui;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.auth.AuthService;
-import com.redheads.arla.entities.*;
+import com.redheads.arla.entities.ContentType;
+import com.redheads.arla.entities.DashboardCell;
+import com.redheads.arla.entities.DashboardConfig;
+import com.redheads.arla.entities.User;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class DialogFactory {
 
     public static Dialog createErrorAlert(Throwable e) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle("An error occurred");
-        a.setContentText(e.getMessage());
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("An error occurred");
+        alert.setContentText(e.getMessage());
 
         e.printStackTrace();
-        return a;
+        return alert;
     }
 
     public static Dialog createInfoAlert(String msg) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle(msg);
-        a.setContentText(msg);
-        return a;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(msg);
+        alert.setContentText(msg);
+        return alert;
     }
 
     public static Dialog<User> createUserDialog() {
@@ -38,10 +48,7 @@ public class DialogFactory {
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
         // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        GridPane grid = createGridPane();
 
         JFXTextField username = new JFXTextField();
         username.setPromptText("Username");
@@ -83,10 +90,7 @@ public class DialogFactory {
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
         // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        GridPane grid = createGridPane();
 
         JFXTextField name = new JFXTextField();
         name.setPromptText("Name");
@@ -133,10 +137,7 @@ public class DialogFactory {
         ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        GridPane grid = createGridPane();
 
         JFXTextField configName = new JFXTextField();
         configName.setText(config.getName());
@@ -185,11 +186,7 @@ public class DialogFactory {
         ButtonType loginButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
-        // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        GridPane grid = createGridPane();
 
         //TODO: Change to spinner perhaps
         JFXTextField column = new JFXTextField();
@@ -203,24 +200,15 @@ public class DialogFactory {
         JFXComboBox<ContentType> contentType = new JFXComboBox<>();
         contentType.setItems(FXCollections.observableArrayList(ContentType.values()));
 
-        //TODO: Add file select
         JFXTextField contentPath = new JFXTextField();
         contentPath.setPromptText("Content Path");
+        JFXButton choosePath = new JFXButton("Choose...");
 
-        grid.add(new Label("Column:"), 0, 0);
-        grid.add(column, 1, 0);
-        grid.add(new Label("Row:"), 0, 1);
-        grid.add(row, 1, 1);
-        grid.add(new Label("Column Span:"), 0, 2);
-        grid.add(columnSpan, 1, 2);
-        grid.add(new Label("Row Span:"), 0, 3);
-        grid.add(rowSpan, 1, 3);
-        grid.add(new Label("Content Path:"), 0, 4);
-        grid.add(contentPath, 1, 4);
-        grid.add(new Label("Content Type:"), 0, 5);
-        grid.add(contentType, 1, 5);
+        addElementsToGrid(grid, column, row, columnSpan, rowSpan, contentType, contentPath, choosePath);
 
         dialog.getDialogPane().setContent(grid);
+
+        createFileChooser(contentPath, choosePath);
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
@@ -246,10 +234,7 @@ public class DialogFactory {
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
         // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        GridPane grid = createGridPane();
 
         //TODO: Change to spinner perhaps
         JFXTextField column = new JFXTextField();
@@ -268,24 +253,13 @@ public class DialogFactory {
         contentType.setItems(FXCollections.observableArrayList(ContentType.values()));
         contentType.getSelectionModel().select(cell.getContentType());
 
-        //TODO: Add file select
         JFXTextField contentPath = new JFXTextField();
         contentPath.setPromptText("Content Path");
         contentPath.textProperty().set(cell.getContentPath());
+        JFXButton choosePath = new JFXButton("Choose...");
 
-        grid.add(new Label("Column:"), 0, 0);
-        grid.add(column, 1, 0);
-        grid.add(new Label("Row:"), 0, 1);
-        grid.add(row, 1, 1);
-        grid.add(new Label("Column Span:"), 0, 2);
-        grid.add(columnSpan, 1, 2);
-        grid.add(new Label("Row Span:"), 0, 3);
-        grid.add(rowSpan, 1, 3);
-        grid.add(new Label("Content Path:"), 0, 4);
-        grid.add(contentPath, 1, 4);
-        grid.add(new Label("Content Type:"), 0, 5);
-        grid.add(contentType, 1, 5);
-
+        createFileChooser(contentPath, choosePath);
+        addElementsToGrid(grid, column, row, columnSpan, rowSpan, contentType, contentPath, choosePath);
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
@@ -302,6 +276,70 @@ public class DialogFactory {
         });
 
         return dialog;
+    }
+
+    /**
+     * Create dialog grid pane
+     * @return the created grid pane
+     */
+    private static GridPane createGridPane() {
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        return grid;
+    }
+
+    /**
+     * Creates a file chooser dialog
+     * @param contentPath text field where the file path should be placed in
+     * @param choosePath Button which opens the file chooser dialog
+     */
+    private static void createFileChooser(JFXTextField contentPath, JFXButton choosePath) {
+        FileChooser fileChooser = new FileChooser();
+
+        // File extension filters with the possible file types
+        FileChooser.ExtensionFilter fileExtensions =
+                new FileChooser.ExtensionFilter("All Files","*.csv", ".xlsx", "*.jpg", "*.png", "*.jpeg", "*.html");
+
+        fileChooser.getExtensionFilters().add(fileExtensions);
+
+        choosePath.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                File selectedFile = fileChooser.showOpenDialog(WindowManager.getMainWindow());
+                if (selectedFile != null) {
+                    contentPath.setText(selectedFile.getAbsolutePath());
+                }
+            }
+        });
+    }
+
+    /**
+     * Adds elements to the given grid
+     * @param grid grid to be added to
+     * @param column column location test field
+     * @param row row location test field
+     * @param columnSpan tile length test field
+     * @param rowSpan tile width test field
+     * @param contentType type of content to be added
+     * @param contentPath path of content text field
+     * @param choosePath choose file button
+     */
+    private static void addElementsToGrid(GridPane grid, JFXTextField column, JFXTextField row, JFXTextField columnSpan, JFXTextField rowSpan, JFXComboBox<ContentType> contentType, JFXTextField contentPath, JFXButton choosePath) {
+        grid.add(new Label("Column:"), 0, 0);
+        grid.add(column, 1, 0);
+        grid.add(new Label("Row:"), 0, 1);
+        grid.add(row, 1, 1);
+        grid.add(new Label("Column Span:"), 0, 2);
+        grid.add(columnSpan, 1, 2);
+        grid.add(new Label("Row Span:"), 0, 3);
+        grid.add(rowSpan, 1, 3);
+        grid.add(new Label("Content Path:"), 0, 4);
+        grid.add(contentPath, 1, 4);
+        grid.add(choosePath, 2, 4);
+        grid.add(new Label("Content Type:"), 0, 5);
+        grid.add(contentType, 1, 5);
     }
 
     public static Dialog<DashboardMessage> createMessageDialog(int configID, DashboardMessage msg) {
@@ -352,4 +390,5 @@ public class DialogFactory {
 
         return dialog;
     }
+
 }
