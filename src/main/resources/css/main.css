@@ -12,6 +12,25 @@
     -fx-background-color: #f5f5f6;
 }
 
+.info {
+    -fx-background-color: #f5f5f6;
+    -fx-font-weight: bold;
+}
+
+.minor {
+    -fx-background-color: #2E7D32;
+    -fx-font-weight: bold;
+}
+
+.major {
+    -fx-background-color: #F57F17;
+    -fx-font-weight: bold;
+}
+
+.critical {
+    -fx-background-color: #B71C1C;
+    -fx-font-weight: bold;
+}
 
 .jfx-tab-pane .headers-region {
     -fx-background-color: #7da453;

@@ -4,18 +4,23 @@ import com.redheads.arla.business.auth.UserSession;
 import com.redheads.arla.business.repo.RepoFacade;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
+import com.redheads.arla.entities.DashboardMessage;
+import com.redheads.arla.entities.MessageType;
 import com.redheads.arla.ui.CellFactory;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -37,6 +42,10 @@ public class UserController implements Initializable {
     private DashboardConfig config;
     Timer timer = new Timer();
 
+    @FXML
+    private Label messageField;
+    @FXML
+    private VBox messageContainer;
     @FXML
     private GridPane tileGrid;
 
@@ -94,8 +103,40 @@ public class UserController implements Initializable {
         }
     }
 
+    private void setupMessage() {
+        DashboardMessage m = repoFacade.getMessageRepo().getCurrentMessage();
+        if (m != null) {
+            messageField.setText(m.getMsg());
+            toggleMessageClasses(m.getType());
+        }
+    }
+
+    private void toggleMessageClasses(MessageType type) {
+        ObservableList<String> classes = messageContainer.getStyleClass();
+        if (classes.contains("info")) {
+            classes.remove("info");
+        }
+        if (classes.contains("minor")) {
+            classes.remove("minor");
+        }
+        if (classes.contains("major")) {
+            classes.remove("major");
+        }
+        if (classes.contains("critical")) {
+            classes.remove("critical");
+        }
+
+        switch (type) {
+            case INFO -> classes.add("info");
+            case MINOR -> classes.add("minor");
+            case MAJOR -> classes.add("major");
+            case CRITICAL -> classes.add("critical");
+        }
+    }
+
     public void refresh(ActionEvent actionEvent) {
         setupGrid();
+        setupMessage();
     }
 
     public void logout(ActionEvent actionEvent) {

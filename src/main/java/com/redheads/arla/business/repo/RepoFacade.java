@@ -18,6 +18,7 @@ public class RepoFacade {
 
     private UserRepo userRepo = new UserRepo();
     private DashboardConfigRepo configRepo = new DashboardConfigRepo();
+    private MessageRepo messageRepo = new MessageRepo();
 
     /**
      * Saves all changes in all repos
@@ -33,5 +34,9 @@ public class RepoFacade {
 
     public DashboardConfigRepo getConfigRepo() {
         return configRepo;
+    }
+
+    public MessageRepo getMessageRepo() {
+        return messageRepo;
     }
 }
