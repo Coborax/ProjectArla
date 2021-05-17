@@ -83,6 +83,10 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
     }
 
     public void addMessage() {
+        Optional<DashboardMessage> message = DialogFactory.createMessageDialog(getSelectedItem().getId(), null).showAndWait();
+        if (message.isPresent()) {
+            repoFacade.getMessageRepo().add(message.get());
+        }
     }
 
     public void editMessage() {

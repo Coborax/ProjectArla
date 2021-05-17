@@ -1,13 +1,8 @@
 package com.redheads.arla.ui;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.redheads.arla.business.auth.AuthService;
-import com.redheads.arla.entities.ContentType;
-import com.redheads.arla.entities.DashboardCell;
-import com.redheads.arla.entities.DashboardConfig;
-import com.redheads.arla.entities.User;
+import com.redheads.arla.entities.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -309,4 +304,52 @@ public class DialogFactory {
         return dialog;
     }
 
+    public static Dialog<DashboardMessage> createMessageDialog(int configID, DashboardMessage msg) {
+        Dialog<DashboardMessage> dialog = new Dialog();
+
+        // Set the button types.
+        ButtonType loginButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+        JFXTextField msgField = new JFXTextField();
+        msgField.setPromptText("Message");
+
+        JFXTimePicker startTime = new JFXTimePicker();
+        JFXTimePicker endTime = new JFXTimePicker();
+
+        JFXComboBox<MessageType> contentType = new JFXComboBox<>();
+        contentType.setItems(FXCollections.observableArrayList(MessageType.values()));
+        contentType.getSelectionModel().select(msg.getType());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        grid.add(new Label("Message:"), 0, 0);
+        grid.add(msgField, 1, 0);
+        grid.add(new Label("Start time:"), 0, 1);
+        grid.add(msgField, 1, 1);
+        grid.add(new Label("End time:"), 0, 2);
+        grid.add(msgField, 1, 2);
+        grid.add(new Label("Severity:"), 0, 3);
+        grid.add(msgField, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                if (msg != null) {
+                    msg.setMsg(msgField.getText());
+                    msg.setType(contentType.getValue());
+                } else {
+                    return new DashboardMessage(configID, msgField.getText(), contentType.getValue(), startTime.getValue(), endTime.getValue());
+                }
+                return msg;
+            }
+            return null;
+        });
+
+        return dialog;
+    }
 }
