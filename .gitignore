@@ -144,3 +144,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,windows,java
 src/main/resources/db.properties
+TESTDATA/test.pdf
