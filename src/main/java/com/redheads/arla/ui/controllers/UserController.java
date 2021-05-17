@@ -22,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -56,13 +55,17 @@ public class UserController implements Initializable {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(()-> setupGrid());
+                Platform.runLater(()-> {
+                    setupGrid();
+                    setupMessage();
+                });
             }
         };
 
         Platform.runLater(() -> {
             config = repoFacade.getConfigRepo().get(UserSession.getInstance().getCurrentUser().getConfigID());
             setupGrid();
+            setupMessage();
 
             // Schedule the timer to update the ui at with the refresh rate set by the admin
             timer.scheduleAtFixedRate(task, 0, config.getRefreshRate() * 1000);
@@ -104,10 +107,15 @@ public class UserController implements Initializable {
     }
 
     private void setupMessage() {
-        DashboardMessage m = repoFacade.getMessageRepo().getCurrentMessage();
+        DashboardMessage m = repoFacade.getMessageRepo().getCurrentMessage(UserSession.getInstance().getCurrentUser().getConfigID());
         if (m != null) {
+            messageContainer.setVisible(true);
+            messageContainer.setManaged(true);
             messageField.setText(m.getMsg());
             toggleMessageClasses(m.getType());
+        } else {
+            messageContainer.setVisible(false);
+            messageContainer.setManaged(false);
         }
     }
 

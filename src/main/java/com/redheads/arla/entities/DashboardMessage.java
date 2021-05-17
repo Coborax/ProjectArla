@@ -58,4 +58,9 @@ public class DashboardMessage extends Entity {
     public void setEnd(LocalTime end) {
         this.end = end;
     }
+
+    @Override
+    public String toString() {
+        return msg + ", " + type + ", " + start + " - " + end;
+    }
 }

@@ -26,6 +26,7 @@ public class RepoFacade {
     public void saveChanges() throws DataAccessError {
         configRepo.saveAllChanges();
         userRepo.saveAllChanges();
+        messageRepo.saveAllChanges();
     }
 
     public UserRepo getUserRepo() {

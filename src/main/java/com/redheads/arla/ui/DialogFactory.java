@@ -351,7 +351,13 @@ public class DialogFactory {
 
         JFXComboBox<MessageType> contentType = new JFXComboBox<>();
         contentType.setItems(FXCollections.observableArrayList(MessageType.values()));
-        contentType.getSelectionModel().select(msg.getType());
+
+        if (msg != null) {
+            msgField.setText(msg.getMsg());
+            startTime.setValue(msg.getStart());
+            endTime.setValue(msg.getEnd());
+            contentType.getSelectionModel().select(msg.getType());
+        }
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -361,11 +367,11 @@ public class DialogFactory {
         grid.add(new Label("Message:"), 0, 0);
         grid.add(msgField, 1, 0);
         grid.add(new Label("Start time:"), 0, 1);
-        grid.add(msgField, 1, 1);
+        grid.add(startTime, 1, 1);
         grid.add(new Label("End time:"), 0, 2);
-        grid.add(msgField, 1, 2);
+        grid.add(endTime, 1, 2);
         grid.add(new Label("Severity:"), 0, 3);
-        grid.add(msgField, 1, 3);
+        grid.add(contentType, 1, 3);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -374,6 +380,8 @@ public class DialogFactory {
                 if (msg != null) {
                     msg.setMsg(msgField.getText());
                     msg.setType(contentType.getValue());
+                    msg.setStart(startTime.getValue());
+                    msg.setEnd(endTime.getValue());
                 } else {
                     return new DashboardMessage(configID, msgField.getText(), contentType.getValue(), startTime.getValue(), endTime.getValue());
                 }

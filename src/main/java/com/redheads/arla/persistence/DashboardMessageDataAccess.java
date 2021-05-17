@@ -13,7 +13,7 @@ public class DashboardMessageDataAccess implements IDataAccess<DashboardMessage>
 
     private final String CREATE_SQL = "INSERT INTO DashboardMessages (ConfigID, Message, MessageType, StartDate, EndDate) VALUES (?, ?, ?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM DashboardMessages WHERE ID=?;";
-    private final String SELECT_ALL_SQL = "SELECT * FROM DashboardConfigs;";
+    private final String SELECT_ALL_SQL = "SELECT * FROM DashboardMessages;";
     private final String UPDATE_SQL = "UPDATE DashboardMessages SET Message = ?, MessageType = ?, StartDate = ?, EndDate = ? WHERE ID = ?;";
 
     private DBConnector dbConnector = new DBConnector();
@@ -87,6 +87,7 @@ public class DashboardMessageDataAccess implements IDataAccess<DashboardMessage>
             statement.setInt(2, toUpdate.getType().ordinal());
             statement.setTime(3, Time.valueOf(toUpdate.getStart()));
             statement.setTime(4, Time.valueOf(toUpdate.getEnd()));
+            statement.setInt(5, toUpdate.getId());
             statement.execute();
 
         } catch (SQLException e) {

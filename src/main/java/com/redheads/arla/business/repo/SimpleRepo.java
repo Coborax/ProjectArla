@@ -35,6 +35,7 @@ public class SimpleRepo<T extends Entity> extends ObservableRepo<T> {
     @Override
     public void add(Entity toAdd) {
         entities.add((T) toAdd);
+        System.out.println(toAdd.getId());
         if (toAdd.getId() == -1) {
             newEntities.add((T) toAdd);
         }
@@ -53,7 +54,7 @@ public class SimpleRepo<T extends Entity> extends ObservableRepo<T> {
     @Override
     public void saveAllChanges() throws DataAccessError {
         for (Entity entity : entities) {
-            if (entity.getLastUpdated().isAfter(lastUpdated)) {
+            if (!newEntities.contains(entity) && !deletedEntities.contains(entity) && entity.getLastUpdated().isAfter(lastUpdated)) {
                 dataAccess.update((T) entity);
             }
         }

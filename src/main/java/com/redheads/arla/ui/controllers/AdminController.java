@@ -5,12 +5,10 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.events.IRepoListener;
-import com.redheads.arla.business.repo.DashboardConfigRepo;
-import com.redheads.arla.business.repo.IRepo;
-import com.redheads.arla.business.repo.RepoFacade;
-import com.redheads.arla.business.repo.UserRepo;
+import com.redheads.arla.business.repo.*;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
+import com.redheads.arla.entities.DashboardMessage;
 import com.redheads.arla.entities.User;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
@@ -67,6 +65,7 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
+    private ObservableList<DashboardMessage> selectedDashboardMessages = FXCollections.observableArrayList();
 
     //TODO: Fix this
     public static String configName;
@@ -76,6 +75,7 @@ public class AdminController implements Initializable, IRepoListener {
     public void initialize(URL location, ResourceBundle resources) {
         repoFacade.getUserRepo().subscribe(this);
         repoFacade.getConfigRepo().subscribe(this);
+        repoFacade.getMessageRepo().subscribe(this);
 
         userObservableList.addAll(repoFacade.getUserRepo().getAll());
         configObservableList.addAll(repoFacade.getConfigRepo().getAll());
@@ -90,6 +90,7 @@ public class AdminController implements Initializable, IRepoListener {
             configList.setItems(configObservableList);
             configSelection.setItems(configObservableList);
             dashboardCells.setItems(selectedDashboardCells);
+            dashboardMessages.setItems(selectedDashboardMessages);
         });
 
         //TODO: Move this into ConfigManagmentModel (Probably as a property, so we can bind it)
@@ -100,6 +101,8 @@ public class AdminController implements Initializable, IRepoListener {
                     configNameField.setText(t1.getName());
                     selectedDashboardCells.clear();
                     selectedDashboardCells.addAll(t1.getCells());
+                    selectedDashboardMessages.clear();
+                    selectedDashboardMessages.addAll(repoFacade.getMessageRepo().getMessagesWithConfigID(t1.getId()));
                 }
             }
         });
