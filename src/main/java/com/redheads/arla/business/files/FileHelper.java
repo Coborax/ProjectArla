@@ -1,15 +1,14 @@
 package com.redheads.arla.business.files;
 
-import com.opencsv.CSVReader;
 import com.redheads.arla.persistence.files.ICsvLoader;
 import com.redheads.arla.persistence.files.OpenCsvLoader;
 import com.redheads.arla.util.exceptions.persistence.CSVReadError;
-import javafx.scene.chart.XYChart;
+import javafx.scene.image.Image;
 
-import java.util.HashMap;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
+
 
 public class FileHelper {
 
@@ -17,6 +16,11 @@ public class FileHelper {
 
     public static List<String[]> loadCSVData(String path) throws CSVReadError {
         return csvLoader.readData(path);
+    }
+
+    public static Image loadImage(String path) throws FileNotFoundException {
+        FileInputStream inputStream = new FileInputStream(path);
+        return new Image(inputStream);
     }
 }
 

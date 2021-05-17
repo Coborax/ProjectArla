@@ -14,10 +14,14 @@ import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.skin.TableViewSkin;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
-
+import java.io.FileNotFoundException;
+import java.io.WriteAbortedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +32,9 @@ import java.util.*;
 
 public class CellFactory {
 
-    public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError {
+
+    //TODO: Change file not found to custom exception
+    public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError, FileNotFoundException {
         Node node = null;
         switch (cell.getContentType()) {
             case WEB -> node = createWebCell(cell);
@@ -37,6 +43,7 @@ public class CellFactory {
             case PDF -> node = createPDFCell(cell);
             case CSV_PIE_CHART -> node = createCSVPiechartCell(cell);
             case CSV_LINE_CHART -> node = createCSVLineChartCell(cell);
+            case IMAGE -> node = createImageCell(cell);
             default -> node = null;
         }
         return node;
@@ -170,6 +177,12 @@ public class CellFactory {
         tableView.getItems().remove(0);
 
         return tableView;
+    }
+
+    private static Node createImageCell(DashboardCell cell) throws FileNotFoundException {
+        BorderPane pane = new BorderPane();
+        pane.setCenter(new ImageView(FileHelper.loadImage(cell.getContentPath())));
+        return pane;
     }
 
 }
