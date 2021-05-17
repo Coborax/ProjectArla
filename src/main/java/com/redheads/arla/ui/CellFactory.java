@@ -1,8 +1,10 @@
 package com.redheads.arla.ui;
 
+import com.dansoftware.pdfdisplayer.PDFDisplayer;
 import com.redheads.arla.business.files.FileHelper;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.util.exceptions.persistence.CSVReadError;
+import com.redheads.arla.util.exceptions.persistence.PDFReadError;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -18,27 +20,44 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
-
 import java.io.FileNotFoundException;
 import java.io.WriteAbortedException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
 public class CellFactory {
 
-    public static Node createCell(DashboardCell cell) throws CSVReadError, FileNotFoundException {
+
+    //TODO: Change file not found to custom exception
+    public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError, FileNotFoundException {
         Node node = null;
         switch (cell.getContentType()) {
             case WEB -> node = createWebCell(cell);
             case CSV_RAW -> node = createCSVRawCell(cell);
             case CSV_BAR_CHART -> node = createCSVBarCell(cell);
+            case PDF -> node = createPDFCell(cell);
             case CSV_PIE_CHART -> node = createCSVPiechartCell(cell);
             case CSV_LINE_CHART -> node = createCSVLineChartCell(cell);
             case IMAGE -> node = createImageCell(cell);
             default -> node = null;
         }
         return node;
+    }
+
+    private static Node createPDFCell(DashboardCell cell) throws PDFReadError {
+        PDFDisplayer pdfView = new PDFDisplayer();
+        try {
+            pdfView.loadPDF(new File(cell.getContentPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new PDFReadError("Could not find PDF", e);
+        }
+        return pdfView.toNode();
     }
 
     private static Node createWebCell(DashboardCell cell) {
@@ -69,7 +88,7 @@ public class CellFactory {
         }
         
         chart.getData().addAll(series);
-
+      
         return chart;
     }
 
@@ -79,7 +98,7 @@ public class CellFactory {
         PieChart piechart = new PieChart();
         List<List<String>> dataByColumn = new ArrayList<>();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
+      
         // Loops through list of data and adds values by column to dataByColumn nested list
         for (int x = 0; x < data.get(0).length; x++) {
             List<String> tempList = new ArrayList<>();

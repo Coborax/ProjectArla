@@ -8,6 +8,7 @@ module com.redheads {
     requires java.naming;
     requires password4j;
     requires opencsv;
+    requires PDFViewerFX;
 
     opens com.redheads.arla to javafx.fxml, javafx.graphics;
     opens com.redheads.arla.ui.controllers to javafx.fxml, javafx.graphics;
