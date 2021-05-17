@@ -52,6 +52,6 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return getId() + " - " + username;
+        return username;
     }
 }
