@@ -1,14 +1,8 @@
 package com.redheads.arla.ui;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.redheads.arla.business.auth.AuthService;
-import com.redheads.arla.entities.ContentType;
-import com.redheads.arla.entities.DashboardCell;
-import com.redheads.arla.entities.DashboardConfig;
-import com.redheads.arla.entities.User;
+import com.redheads.arla.entities.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

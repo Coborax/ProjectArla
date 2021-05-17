@@ -40,6 +40,7 @@ com\redheads\arla\business\auth\UserSession.class
 com\redheads\arla\business\repo\RepoFacade.class
 com\redheads\arla\persistence\files\ICsvLoader.class
 com\redheads\arla\persistence\UserDataAccess.class
+com\redheads\arla\ui\controllers\UserController$2.class
 com\redheads\arla\ui\CellFactory$1.class
 com\redheads\arla\util\config\ConfigReader.class
 com\redheads\arla\business\auth\AuthService.class
