@@ -5,7 +5,10 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.events.IRepoListener;
-import com.redheads.arla.business.repo.*;
+import com.redheads.arla.business.repo.DashboardConfigRepo;
+import com.redheads.arla.business.repo.IRepo;
+import com.redheads.arla.business.repo.RepoFacade;
+import com.redheads.arla.business.repo.UserRepo;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.entities.DashboardMessage;
@@ -38,8 +41,6 @@ public class AdminController implements Initializable, IRepoListener {
     @FXML
     private JFXListView dashboardCells;
     @FXML
-    private JFXTextField configNameField;
-    @FXML
     private GridPane tileGrid;
     @FXML
     private JFXListView<User> userList;
@@ -66,10 +67,6 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
     private ObservableList<DashboardMessage> selectedDashboardMessages = FXCollections.observableArrayList();
-
-    //TODO: Fix this
-    public static String configName;
-    public static int refreshRate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,7 +95,6 @@ public class AdminController implements Initializable, IRepoListener {
             @Override
             public void changed(ObservableValue<? extends DashboardConfig> observableValue, DashboardConfig dashboardConfig, DashboardConfig t1) {
                 if (t1 != null) {
-                    configNameField.setText(t1.getName());
                     selectedDashboardCells.clear();
                     selectedDashboardCells.addAll(t1.getCells());
                     selectedDashboardMessages.clear();
@@ -106,21 +102,10 @@ public class AdminController implements Initializable, IRepoListener {
                 }
             }
         });
-
-        configNameField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                configList.getSelectionModel().getSelectedItem().setName(t1);
-            }
-        });
     }
 
     public void newUser(ActionEvent event) {
         userManagementModel.newUser();
-    }
-
-    public void saveUser(ActionEvent event) {
-        userManagementModel.saveUser();
     }
 
     public void deleteUser(ActionEvent event) {
@@ -142,8 +127,13 @@ public class AdminController implements Initializable, IRepoListener {
         configManagmentModel.newConfig();
     }
 
-    public void saveConfig(ActionEvent event) {
-        configManagmentModel.saveConfig();
+    public void saveAllChanges(ActionEvent event) {
+        try {
+            repoFacade.saveChanges();
+        } catch (DataAccessError dataAccessError) {
+            dataAccessError.printStackTrace();
+            DialogFactory.createErrorAlert(dataAccessError);
+        }
     }
 
     public void deleteConfig(ActionEvent event) {

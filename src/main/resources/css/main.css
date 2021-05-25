@@ -32,6 +32,10 @@
     -fx-font-weight: bold;
 }
 
+.danger-btn {
+    -fx-background-color: #F44336;
+}
+
 .jfx-tab-pane .headers-region {
     -fx-background-color: #7da453;
 }
