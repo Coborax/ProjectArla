@@ -56,6 +56,7 @@ public class UserController implements Initializable {
             @Override
             public void run() {
                 Platform.runLater(()-> {
+                    System.out.println("Refreshing Dashboard");
                     setupGrid();
                     setupMessage();
                 });
@@ -154,4 +155,6 @@ public class UserController implements Initializable {
             UserSession.getInstance().setCurrentUser(null);
         }
     }
+
+
 }

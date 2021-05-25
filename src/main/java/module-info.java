@@ -9,6 +9,7 @@ module com.redheads {
     requires password4j;
     requires opencsv;
     requires PDFViewerFX;
+    requires org.apache.poi.ooxml;
 
     opens com.redheads.arla to javafx.fxml, javafx.graphics;
     opens com.redheads.arla.ui.controllers to javafx.fxml, javafx.graphics;

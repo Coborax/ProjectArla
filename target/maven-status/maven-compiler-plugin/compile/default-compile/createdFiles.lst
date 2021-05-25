@@ -5,12 +5,14 @@ com\redheads\arla\persistence\database\DBConnector.class
 com\redheads\arla\persistence\DashboardMessageDataAccess.class
 com\redheads\arla\ui\WindowManager.class
 com\redheads\arla\business\events\IRepoListener.class
+com\redheads\arla\persistence\files\IExcelLoader.class
 com\redheads\arla\util\exceptions\persistence\DataAccessError.class
 com\redheads\arla\business\files\FileHelper.class
 com\redheads\arla\business\repo\ObservableRepo.class
 com\redheads\arla\entities\Entity.class
 com\redheads\arla\ui\models\UserManagementModel.class
 com\redheads\arla\App.class
+com\redheads\arla\util\exceptions\persistence\ExcelReadError.class
 com\redheads\arla\entities\DashboardConfig.class
 com\redheads\arla\ui\CellFactory.class
 com\redheads\arla\entities\ContentType.class
@@ -20,7 +22,9 @@ com\redheads\arla\entities\DashboardMessage.class
 com\redheads\arla\persistence\DashboardConfigDataAccess.class
 com\redheads\arla\entities\User.class
 com\redheads\arla\ui\controllers\AdminController.class
+com\redheads\arla\util\exceptions\persistence\HTMLReadError.class
 com\redheads\arla\business\repo\SimpleRepo.class
+com\redheads\arla\persistence\files\POIExcelLoader.class
 com\redheads\arla\persistence\IDataAccess.class
 com\redheads\arla\persistence\files\OpenCsvLoader.class
 com\redheads\arla\ui\tasks\AuthenticateUserTask.class
@@ -31,6 +35,7 @@ module-info.class
 com\redheads\arla\business\repo\MessageRepo.class
 com\redheads\arla\ui\models\ListSelectionModel.class
 com\redheads\arla\ui\controllers\UserController$1.class
+com\redheads\arla\persistence\files\ICSVLoader.class
 com\redheads\arla\util\exceptions\persistence\PDFReadError.class
 com\redheads\arla\ui\models\ConfigManagmentModel.class
 com\redheads\arla\entities\MessageType.class
@@ -38,7 +43,6 @@ com\redheads\arla\ui\DialogFactory.class
 com\redheads\arla\util\config\DBConfigReader.class
 com\redheads\arla\business\auth\UserSession.class
 com\redheads\arla\business\repo\RepoFacade.class
-com\redheads\arla\persistence\files\ICsvLoader.class
 com\redheads\arla\persistence\UserDataAccess.class
 com\redheads\arla\ui\controllers\UserController$2.class
 com\redheads\arla\ui\CellFactory$1.class

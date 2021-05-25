@@ -2,44 +2,37 @@ package com.redheads.arla.ui;
 
 import com.dansoftware.pdfdisplayer.PDFDisplayer;
 import com.redheads.arla.business.files.FileHelper;
+import com.redheads.arla.entities.ContentType;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.util.exceptions.persistence.CSVReadError;
+import com.redheads.arla.util.exceptions.persistence.ExcelReadError;
 import com.redheads.arla.util.exceptions.persistence.PDFReadError;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.skin.TableViewSkin;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
-import java.io.FileNotFoundException;
-import java.io.WriteAbortedException;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
 
 public class CellFactory {
 
-
     //TODO: Change file not found to custom exception
-    public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError, FileNotFoundException {
+    public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError, FileNotFoundException, ExcelReadError {
         Node node = null;
         switch (cell.getContentType()) {
             case WEB -> node = createWebCell(cell);
             case CSV_RAW -> node = createCSVRawCell(cell);
-            case CSV_BAR_CHART -> node = createCSVBarCell(cell);
+            case CSV_BAR_CHART, EXCEL_BAR_CHART -> node = createBarCell(cell);
             case PDF -> node = createPDFCell(cell);
             case CSV_PIE_CHART -> node = createCSVPiechartCell(cell);
             case CSV_LINE_CHART -> node = createCSVLineChartCell(cell);
@@ -62,12 +55,17 @@ public class CellFactory {
 
     private static Node createWebCell(DashboardCell cell) {
         WebView webView = new WebView();
-        webView.getEngine().load(cell.getContentPath());
+        webView.getEngine().load("file://" + cell.getContentPath());
         return webView;
     }
 
-    private static Node createCSVBarCell(DashboardCell cell) throws CSVReadError {
-        List<String[]> data = FileHelper.loadCSVData(cell.getContentPath());
+    private static Node createBarCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
+        List<String[]> data;
+        if (cell.getContentType() == ContentType.EXCEL_BAR_CHART) {
+            data = FileHelper.loadExcelData(cell.getContentPath());
+        } else {
+            data = FileHelper.loadCSVData(cell.getContentPath());
+        }
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();

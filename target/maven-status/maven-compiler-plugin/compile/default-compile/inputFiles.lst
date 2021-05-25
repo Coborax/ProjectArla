@@ -10,6 +10,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardM
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\models\UserManagementModel.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\CSVReadError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\database\DBConnector.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\IExcelLoader.java
 D:\Private\Repos\ProjectArla\src\main\java\module-info.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\AdminController.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\Entity.java
@@ -18,7 +19,10 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\DBConfi
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\models\ListSelectionModel.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardCell.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\User.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\POIExcelLoader.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\HTMLReadError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\App.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\ExcelReadError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\PDFReadError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\DashboardConfig.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\events\IRepoListener.java
@@ -33,7 +37,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\ContentTyp
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\auth\UserSession.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\SimpleRepo.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\DialogFactory.java
-D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\ICsvLoader.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\ICSVLoader.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\controllers\UserController.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\DashboardConfigDataAccess.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\MessageRepo.java

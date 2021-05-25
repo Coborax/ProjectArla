@@ -3,17 +3,14 @@ package com.redheads.arla.persistence.files;
 import com.opencsv.CSVReader;
 import com.redheads.arla.util.exceptions.persistence.CSVReadError;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class OpenCsvLoader implements ICsvLoader {
+public class OpenCsvLoader implements ICSVLoader {
 
     @Override
     public List<String[]> readData(String path) throws CSVReadError {

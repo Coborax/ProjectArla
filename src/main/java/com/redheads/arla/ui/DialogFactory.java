@@ -149,13 +149,6 @@ public class DialogFactory {
         grid.add(new Label("Content refresh rate (seconds):"), 0, 1);
         grid.add(spinner, 1, 1);
 
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
-        loginButton.setDisable(true);
-
-        configName.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
-        });
-
         Platform.runLater(configName::requestFocus);
 
         dialog.getDialogPane().setContent(grid);
@@ -294,7 +287,7 @@ public class DialogFactory {
 
         // File extension filters with the possible file types
         FileChooser.ExtensionFilter fileExtensions =
-                new FileChooser.ExtensionFilter("All Files","*.csv", ".xlsx", "*.jpg", "*.png", "*.jpeg", "*.html");
+                new FileChooser.ExtensionFilter("All Files","*.csv", "*.xlsx", "*.jpg", "*.png", "*.jpeg", "*.html");
 
         fileChooser.getExtensionFilters().add(fileExtensions);
 
