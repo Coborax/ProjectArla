@@ -36,13 +36,13 @@ public class UserManagementModel extends ListSelectionModel<User> {
         configSingleSelectionModel = selectionModel;
 
         this.username.addListener((observableValue, s, t1) -> {
-            if (t1 != null && !t1.isBlank() && t1.isEmpty()) {
+            if (t1 != null) {
                 saveUsername();
             }
         });
         this.configSingleSelectionModel.selectedItemProperty().addListener((observableValue, dashboardConfig, t1) -> {
             if (t1 != null) {
-                savePassword();
+                saveConfig();
             }
         });
 
