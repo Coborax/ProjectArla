@@ -2,6 +2,7 @@ package com.redheads.arla.ui;
 
 import com.redheads.arla.App;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -42,5 +43,9 @@ public class WindowManager {
         mainWindow.getIcons().add(ico);
         mainWindow.setTitle("Project Arla");
         mainWindow.show();
+    }
+
+    public static void setCursorType(Cursor cursorType) {
+        mainWindow.getScene().setCursor(cursorType);
     }
 }

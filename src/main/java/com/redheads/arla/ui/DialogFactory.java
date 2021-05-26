@@ -18,6 +18,14 @@ import java.util.concurrent.TimeUnit;
 
 public class DialogFactory {
 
+    public static Dialog createConfirmationAlert(String title, String msg) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setContentText(msg);
+
+        return alert;
+    }
+
     public static Dialog createErrorAlert(Throwable e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("An error occurred");

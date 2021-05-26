@@ -40,4 +40,8 @@ public class RepoFacade {
     public MessageRepo getMessageRepo() {
         return messageRepo;
     }
+
+    public Boolean hasChanges() {
+        return configRepo.hasChanges() || userRepo.hasChanges() || messageRepo.hasChanges();
+    }
 }

@@ -17,6 +17,7 @@ import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.ui.models.ConfigManagmentModel;
 import com.redheads.arla.ui.models.UserManagementModel;
+import com.redheads.arla.ui.tasks.SaveChangesTask;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -26,11 +27,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminController implements Initializable, IRepoListener {
 
@@ -68,6 +74,8 @@ public class AdminController implements Initializable, IRepoListener {
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
     private ObservableList<DashboardMessage> selectedDashboardMessages = FXCollections.observableArrayList();
 
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         repoFacade.getUserRepo().subscribe(this);
@@ -102,6 +110,15 @@ public class AdminController implements Initializable, IRepoListener {
                 }
             }
         });
+
+        WindowManager.getMainWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, (e) -> {
+            if (repoFacade.hasChanges()) {
+                Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Unsaved changes!", "You have unsaved changes, do you want to save?").showAndWait();
+                if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+                    saveAllChanges();
+                }
+            }
+        });
     }
 
     public void newUser(ActionEvent event) {
@@ -114,13 +131,16 @@ public class AdminController implements Initializable, IRepoListener {
 
     @Override
     public void userRepoChanged(IRepo repo) {
-        if (repo instanceof UserRepo) {
-            userObservableList.clear();
-            userObservableList.addAll(repo.getAll());
-        } else if (repo instanceof DashboardConfigRepo) {
-            configObservableList.clear();
-            configObservableList.addAll(repo.getAll());
-        }
+        // This might be called from another thread, so we do this to ensure we run it on the ui thread
+        Platform.runLater(() -> {
+            if (repo instanceof UserRepo) {
+                userObservableList.clear();
+                userObservableList.addAll(repo.getAll());
+            } else if (repo instanceof DashboardConfigRepo) {
+                configObservableList.clear();
+                configObservableList.addAll(repo.getAll());
+            }
+        });
     }
 
     public void newConfig(ActionEvent event) {
@@ -128,11 +148,32 @@ public class AdminController implements Initializable, IRepoListener {
     }
 
     public void saveAllChanges(ActionEvent event) {
+        saveAllChanges();
+    }
+
+    public void saveAllChanges() {
         try {
-            repoFacade.saveChanges();
-        } catch (DataAccessError dataAccessError) {
-            dataAccessError.printStackTrace();
-            DialogFactory.createErrorAlert(dataAccessError);
+            SaveChangesTask task = new SaveChangesTask();
+
+            task.setOnRunning(workerStateEvent -> {
+                WindowManager.setCursorType(Cursor.WAIT);
+            });
+
+            task.setOnSucceeded(workerStateEvent -> {
+                WindowManager.setCursorType(Cursor.DEFAULT);
+                passwordField.clear();
+            });
+
+            task.setOnFailed(workerStateEvent -> {
+                WindowManager.setCursorType(Cursor.DEFAULT);
+                passwordField.clear();
+                DialogFactory.createErrorAlert(workerStateEvent.getSource().getException()).showAndWait();
+            });
+
+            executorService.execute(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogFactory.createErrorAlert(e);
         }
     }
 
@@ -143,13 +184,6 @@ public class AdminController implements Initializable, IRepoListener {
     //TODO: Move to model
     public void editConfigDetails(ActionEvent actionEvent) {
         Optional<DashboardConfig> result = DialogFactory.createConfigDialog(configList.getSelectionModel().getSelectedItem()).showAndWait();
-        if (result.isPresent()) {
-            try {
-                repoFacade.getConfigRepo().saveAllChanges();
-            } catch (DataAccessError dataAccessError) {
-                dataAccessError.printStackTrace();
-            }
-        }
     }
 
     public void addContent(ActionEvent event) {
@@ -169,6 +203,13 @@ public class AdminController implements Initializable, IRepoListener {
     }
 
     public void logout(ActionEvent event) {
+        if (repoFacade.hasChanges()) {
+            Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Unsaved changes!", "You have unsaved changes, do you want to save?").showAndWait();
+            if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+                saveAllChanges();
+            }
+        }
+
         WindowManager.popScene();
     }
 
@@ -182,5 +223,10 @@ public class AdminController implements Initializable, IRepoListener {
 
     public void removeMessage(ActionEvent event) {
         configManagmentModel.removeMessage();
+    }
+
+    public void updatePass(ActionEvent event) {
+        userManagementModel.savePassword();
+        saveAllChanges();
     }
 }

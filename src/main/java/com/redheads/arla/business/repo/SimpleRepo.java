@@ -71,6 +71,21 @@ public class SimpleRepo<T extends Entity> extends ObservableRepo<T> {
         notifyRepoChange();
     }
 
+    public boolean hasChanges() {
+        if (!newEntities.isEmpty() || !deletedEntities.isEmpty()) {
+            System.out.println("lol 1");
+            return true;
+        }
+
+        for (Entity entity : entities) {
+            if (entity.getLastUpdated().isAfter(lastUpdated)) {
+                System.out.println("lol 2");
+                return true;
+            }
+        }
+        return false;
+    }
+
     public IDataAccess<T> getDataAccess() {
         return dataAccess;
     }

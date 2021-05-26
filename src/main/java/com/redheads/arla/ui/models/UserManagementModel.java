@@ -34,6 +34,18 @@ public class UserManagementModel extends ListSelectionModel<User> {
     public UserManagementModel(MultipleSelectionModel<User> selectedUser, SingleSelectionModel<DashboardConfig> selectionModel) {
         super(selectedUser);
         configSingleSelectionModel = selectionModel;
+
+        this.username.addListener((observableValue, s, t1) -> {
+            if (t1 != null && !t1.isBlank() && t1.isEmpty()) {
+                saveUsername();
+            }
+        });
+        this.configSingleSelectionModel.selectedItemProperty().addListener((observableValue, dashboardConfig, t1) -> {
+            if (t1 != null) {
+                savePassword();
+            }
+        });
+
         this.selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 username.set("");
@@ -58,21 +70,26 @@ public class UserManagementModel extends ListSelectionModel<User> {
     /**
      * Updates user object, and saves all changes
      */
-    public void saveUser() {
+    public void saveUsername() {
         User u = getSelectedItem();
-
         u.setUsername(username.get());
+        getSelectionModel().select(u);
+    }
+
+    public void saveConfig() {
+        User u = getSelectedItem();
         u.setConfigID(configSingleSelectionModel.getSelectedItem().getId());
+        getSelectionModel().select(u);
+    }
+
+    public void savePassword() {
+        User u = getSelectedItem();
         if (!password.get().isEmpty() && !password.get().isBlank()) {
-            u.setPassword(authService.hashPassword(password.get()));
-        }
-        try {
-            repoFacade.saveChanges();
-        } catch (DataAccessError dataAccessError) {
-            showError(dataAccessError);
+            getSelectedItem().setPassword(authService.hashPassword(password.get()));
         }
         getSelectionModel().select(u);
     }
+
 
     /**
      * Removes user from repo, and saves all changes

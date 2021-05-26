@@ -31,6 +31,7 @@ D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\tasks\Authentica
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\files\OpenCsvLoader.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\business\repo\UserRepo.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\persistence\DashboardMessageDataAccess.java
+D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\ui\tasks\SaveChangesTask.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\exceptions\persistence\DataAccessError.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\util\config\ConfigReader.java
 D:\Private\Repos\ProjectArla\src\main\java\com\redheads\arla\entities\ContentType.java
