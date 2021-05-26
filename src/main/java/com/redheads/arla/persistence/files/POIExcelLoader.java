@@ -1,7 +1,6 @@
 package com.redheads.arla.persistence.files;
 
 import com.redheads.arla.util.exceptions.persistence.ExcelReadError;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -60,7 +59,7 @@ public class POIExcelLoader implements IExcelLoader {
                 for(int c = 0; c < cols; c++) {
                     cell = row.getCell((short)c);
                     if(cell != null) {
-                        rowArr[c] = cell.getStringCellValue();
+                        rowArr[c] = cell.getRawValue();
                     }
                 }
                 result.add(rowArr);

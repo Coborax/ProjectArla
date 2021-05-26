@@ -10,6 +10,7 @@ module com.redheads {
     requires opencsv;
     requires PDFViewerFX;
     requires org.apache.poi.ooxml;
+    requires org.apache.commons.compress;
 
     opens com.redheads.arla to javafx.fxml, javafx.graphics;
     opens com.redheads.arla.ui.controllers to javafx.fxml, javafx.graphics;

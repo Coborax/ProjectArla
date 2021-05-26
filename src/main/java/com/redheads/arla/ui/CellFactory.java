@@ -31,11 +31,11 @@ public class CellFactory {
         Node node = null;
         switch (cell.getContentType()) {
             case WEB -> node = createWebCell(cell);
-            case CSV_RAW -> node = createCSVRawCell(cell);
+            case CSV_RAW, EXCEL_RAW -> node = createRawCell(cell);
             case CSV_BAR_CHART, EXCEL_BAR_CHART -> node = createBarCell(cell);
             case PDF -> node = createPDFCell(cell);
-            case CSV_PIE_CHART -> node = createCSVPiechartCell(cell);
-            case CSV_LINE_CHART -> node = createCSVLineChartCell(cell);
+            case CSV_PIE_CHART, EXCEL_PIE_CHART -> node = createPieChartCell(cell);
+            case CSV_LINE_CHART, EXCEL_LINE_CHART -> node = createLineChartCell(cell);
             case IMAGE -> node = createImageCell(cell);
             default -> node = null;
         }
@@ -60,12 +60,7 @@ public class CellFactory {
     }
 
     private static Node createBarCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
-        List<String[]> data;
-        if (cell.getContentType() == ContentType.EXCEL_BAR_CHART) {
-            data = FileHelper.loadExcelData(cell.getContentPath());
-        } else {
-            data = FileHelper.loadCSVData(cell.getContentPath());
-        }
+        List<String[]> data = getSheetData(cell);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -90,8 +85,21 @@ public class CellFactory {
         return chart;
     }
 
-    private static Node createCSVPiechartCell(DashboardCell cell) throws CSVReadError {
-        List<String[]> data = FileHelper.loadCSVData(cell.getContentPath());
+    private static List<String[]> getSheetData(DashboardCell cell) throws ExcelReadError, CSVReadError {
+        List<String[]> data;
+        if (cell.getContentType() == ContentType.EXCEL_RAW ||
+                cell.getContentType() == ContentType.EXCEL_LINE_CHART ||
+                cell.getContentType() == ContentType.EXCEL_BAR_CHART ||
+                cell.getContentType() == ContentType.EXCEL_PIE_CHART) {
+            data = FileHelper.loadExcelData(cell.getContentPath());
+        } else {
+            data = FileHelper.loadCSVData(cell.getContentPath());
+        }
+        return data;
+    }
+
+    private static Node createPieChartCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
+        List<String[]> data = getSheetData(cell);
 
         PieChart piechart = new PieChart();
         List<List<String>> dataByColumn = new ArrayList<>();
@@ -126,8 +134,8 @@ public class CellFactory {
         return piechart;
     }
 
-    private static Node createCSVLineChartCell(DashboardCell cell) throws CSVReadError {
-        List<String[]> data = FileHelper.loadCSVData(cell.getContentPath());
+    private static Node createLineChartCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
+        List<String[]> data = getSheetData(cell);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -152,8 +160,8 @@ public class CellFactory {
         return lineChart;
     }
 
-    private static Node createCSVRawCell(DashboardCell cell) throws CSVReadError {
-        List<String[]> data = FileHelper.loadCSVData(cell.getContentPath());
+    private static Node createRawCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
+        List<String[]> data = getSheetData(cell);
         TableView<ObservableList<String>> tableView = new TableView<>();
 
         for (int i = 0; i < data.get(0).length; i++) {
