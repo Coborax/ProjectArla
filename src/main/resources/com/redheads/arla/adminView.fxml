@@ -23,7 +23,6 @@
                         <VBox alignment="CENTER" minWidth="230.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXListView fx:id="userList" VBox.vgrow="ALWAYS" />
-                              <JFXTextField promptText="Filter Users" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="682.0" prefWidth="1084.0" HBox.hgrow="ALWAYS">
@@ -61,8 +60,7 @@
                      <children>
                         <VBox alignment="CENTER" minWidth="230.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXListView fx:id="configList" VBox.vgrow="ALWAYS" />
-                              <JFXTextField promptText="Filter Dashboards" />
+                              <JFXListView fx:id="configList" prefWidth="230.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="682.0" prefWidth="1084.0" HBox.hgrow="ALWAYS">
