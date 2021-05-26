@@ -66,6 +66,13 @@ public class POIExcelLoader implements IExcelLoader {
             }
         }
 
+        try {
+            pkg.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ExcelReadError("Could not find or read excel file", e);
+        }
+
         return result;
     }
 }
