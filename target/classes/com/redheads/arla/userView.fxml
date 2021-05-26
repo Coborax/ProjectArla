@@ -11,6 +11,7 @@
    <children>
       <GridPane fx:id="tileGrid" alignment="CENTER" hgap="10.0" vgap="10.0" VBox.vgrow="ALWAYS">
       </GridPane>
+      <VBox fx:id="fullscreenContainer" alignment="CENTER" VBox.vgrow="ALWAYS" />
       <VBox fx:id="messageContainer" alignment="CENTER" prefHeight="26.0" prefWidth="1300.0" styleClass="critical">
          <children>
             <Label fx:id="messageField" text="Admin Message" textAlignment="CENTER" textFill="WHITE" />

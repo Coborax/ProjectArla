@@ -9,7 +9,10 @@ import com.redheads.arla.entities.MessageType;
 import com.redheads.arla.ui.CellFactory;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
+import com.redheads.arla.util.exceptions.persistence.CSVReadError;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+import com.redheads.arla.util.exceptions.persistence.ExcelReadError;
+import com.redheads.arla.util.exceptions.persistence.PDFReadError;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,11 +20,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.*;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -39,8 +41,13 @@ public class UserController implements Initializable {
     }
 
     private DashboardConfig config;
-    Timer timer = new Timer();
+    private Timer timer = new Timer();
 
+    private boolean isFullscreen = false;
+    private DashboardCell fullscreenCell = null;
+
+    @FXML
+    private VBox fullscreenContainer;
     @FXML
     private Label messageField;
     @FXML
@@ -50,15 +57,15 @@ public class UserController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        fullscreenContainer.setVisible(false);
+        fullscreenContainer.setManaged(false);
 
         // Timer task that updates the UI.
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(()-> {
-                    System.out.println("Refreshing Dashboard");
-                    setupGrid();
-                    setupMessage();
+                    refresh();
                 });
             }
         };
@@ -79,7 +86,7 @@ public class UserController implements Initializable {
         for (DashboardCell cell : config.getCells()) {
             Node node = null;
             try {
-                node = CellFactory.createCell(cell);
+                node = createCellNode(cell);
             } catch (Exception e) {
                 DialogFactory.createErrorAlert(e).showAndWait();
             }
@@ -107,6 +114,19 @@ public class UserController implements Initializable {
         }
     }
 
+    private Node createCellNode(DashboardCell cell) throws ExcelReadError, FileNotFoundException, PDFReadError, CSVReadError {
+        Node node;
+        node = CellFactory.createCell(cell);
+        Node finalNode = node;
+        node.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
+                toggleFullscreenCell(finalNode, cell);
+                e.consume();
+            }
+        });
+        return node;
+    }
+
     private void setupMessage() {
         DashboardMessage m = repoFacade.getMessageRepo().getCurrentMessage(UserSession.getInstance().getCurrentUser().getConfigID());
         if (m != null) {
@@ -118,6 +138,23 @@ public class UserController implements Initializable {
             messageContainer.setVisible(false);
             messageContainer.setManaged(false);
         }
+    }
+
+    private void setupFullscreen(DashboardCell cell) {
+        setupFullscreen(null, cell);
+    }
+
+    private void setupFullscreen(Node node, DashboardCell cell) {
+        Node nodeToUse = node;
+        if (nodeToUse == null) {
+            try {
+                nodeToUse = createCellNode(cell);
+            } catch (Exception e) {
+            }
+        }
+        fullscreenContainer.getChildren().clear();
+        fullscreenContainer.getChildren().add(nodeToUse);
+        fullscreenContainer.setVgrow(nodeToUse, Priority.ALWAYS);
     }
 
     private void toggleMessageClasses(MessageType type) {
@@ -144,6 +181,13 @@ public class UserController implements Initializable {
     }
 
     public void refresh(ActionEvent actionEvent) {
+        refresh();
+    }
+
+    public void refresh() {
+        if (isFullscreen) {
+            setupFullscreen(fullscreenCell);
+        }
         setupGrid();
         setupMessage();
     }
@@ -156,5 +200,24 @@ public class UserController implements Initializable {
         }
     }
 
+    private void toggleFullscreenCell(Node node, DashboardCell cell) {
+        if (isFullscreen) {
+            fullscreenContainer.setVisible(false);
+            fullscreenContainer.setManaged(false);
+            tileGrid.setVisible(true);
+            tileGrid.setManaged(true);
+
+            setupGrid();
+        } else {
+            fullscreenContainer.setVisible(true);
+            fullscreenContainer.setManaged(true);
+            tileGrid.setVisible(false);
+            tileGrid.setManaged(false);
+
+            setupFullscreen(node, cell);
+        }
+        isFullscreen = !isFullscreen;
+        fullscreenCell = cell;
+    }
 
 }
