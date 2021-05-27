@@ -295,7 +295,7 @@ public class DialogFactory {
 
         // File extension filters with the possible file types
         FileChooser.ExtensionFilter fileExtensions =
-                new FileChooser.ExtensionFilter("All Files","*.csv", "*.xlsx", "*.jpg", "*.png", "*.jpeg", "*.html");
+                new FileChooser.ExtensionFilter("All Files","*.csv", "*.xlsx", "*.jpg", "*.png", "*.jpeg", "*.html", "*.pdf");
 
         fileChooser.getExtensionFilters().add(fileExtensions);
 

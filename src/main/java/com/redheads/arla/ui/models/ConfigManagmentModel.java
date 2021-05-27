@@ -86,7 +86,6 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         Optional<DashboardMessage> message = DialogFactory.createMessageDialog(getSelectedItem().getId(), null).showAndWait();
         if (message.isPresent()) {
             repoFacade.getMessageRepo().add(message.get());
-            System.out.println("Test");
         }
     }
 
