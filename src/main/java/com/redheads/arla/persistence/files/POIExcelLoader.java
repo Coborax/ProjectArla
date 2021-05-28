@@ -22,7 +22,7 @@ public class POIExcelLoader implements IExcelLoader {
             pkg = OPCPackage.open(new File(path));
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ExcelReadError("Cannot find or read Excel file", e);
+            throw new ExcelReadError("Cannot find or read Excel file: " + path, e);
         }
 
         XSSFWorkbook wb = null;
@@ -30,7 +30,7 @@ public class POIExcelLoader implements IExcelLoader {
             wb = new XSSFWorkbook(pkg);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ExcelReadError("Could not find or read excel file", e);
+            throw new ExcelReadError("Cannot find or read Excel file: " + path, e);
         }
 
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -59,7 +59,11 @@ public class POIExcelLoader implements IExcelLoader {
                 for(int c = 0; c < cols; c++) {
                     cell = row.getCell((short)c);
                     if(cell != null) {
-                        rowArr[c] = cell.getRawValue();
+                        switch (cell.getCellType()) {
+                            case BLANK -> rowArr[c] = "";
+                            case STRING -> rowArr[c] = cell.getStringCellValue();
+                            case NUMERIC -> rowArr[c] = cell.getRawValue();
+                        }
                     }
                 }
                 result.add(rowArr);
@@ -70,7 +74,7 @@ public class POIExcelLoader implements IExcelLoader {
             pkg.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ExcelReadError("Could not find or read excel file", e);
+            throw new ExcelReadError("Cannot find or read Excel file: " + path, e);
         }
 
         return result;

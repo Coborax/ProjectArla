@@ -29,10 +29,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.layout.GridPane;
 import javafx.stage.WindowEvent;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -40,6 +42,7 @@ import java.util.concurrent.Executors;
 
 public class AdminController implements Initializable, IRepoListener {
 
+    // UI Elements
     @FXML
     private JFXListView dashboardMessages;
     @FXML
@@ -57,6 +60,7 @@ public class AdminController implements Initializable, IRepoListener {
     @FXML
     private JFXTextField usernameField;
 
+    //Repo facade
     private RepoFacade repoFacade;
     {
         try {
@@ -66,16 +70,24 @@ public class AdminController implements Initializable, IRepoListener {
         }
     }
 
+    //View model abstractions
     private UserManagementModel userManagementModel;
     private ConfigManagmentModel configManagmentModel;
 
+    //Different observable lists
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardConfig> configObservableList = FXCollections.observableArrayList();
     private ObservableList<DashboardCell> selectedDashboardCells = FXCollections.observableArrayList();
     private ObservableList<DashboardMessage> selectedDashboardMessages = FXCollections.observableArrayList();
 
+    //Task executor service
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
+    /**
+     * Do the initialization of the different ui elements
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         repoFacade.getUserRepo().subscribe(this);
@@ -98,15 +110,12 @@ public class AdminController implements Initializable, IRepoListener {
             dashboardMessages.setItems(selectedDashboardMessages);
         });
 
-        //TODO: Move this into ConfigManagmentModel (Probably as a property, so we can bind it)
         configList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DashboardConfig>() {
             @Override
             public void changed(ObservableValue<? extends DashboardConfig> observableValue, DashboardConfig dashboardConfig, DashboardConfig t1) {
                 if (t1 != null) {
-                    selectedDashboardCells.clear();
-                    selectedDashboardCells.addAll(t1.getCells());
-                    selectedDashboardMessages.clear();
-                    selectedDashboardMessages.addAll(repoFacade.getMessageRepo().getMessagesWithConfigID(t1.getId()));
+                    updateSelectionModel(dashboardCells.getSelectionModel(), selectedDashboardCells, t1.getCells());
+                    updateSelectionModel(dashboardMessages.getSelectionModel(), selectedDashboardMessages, repoFacade.getMessageRepo().getMessagesWithConfigID(t1.getId()));
                 }
             }
         });
@@ -129,16 +138,18 @@ public class AdminController implements Initializable, IRepoListener {
         userManagementModel.deleteUser();
     }
 
+    /**
+     * Called by the different repos that we subscibe to
+     * @param repo The repo that was changed
+     */
     @Override
     public void userRepoChanged(IRepo repo) {
         // This might be called from another thread, so we do this to ensure we run it on the ui thread
         Platform.runLater(() -> {
             if (repo instanceof UserRepo) {
-                userObservableList.clear();
-                userObservableList.addAll(repo.getAll());
+                updateSelectionModel(userList.getSelectionModel(), userObservableList, repo.getAll());
             } else if (repo instanceof DashboardConfigRepo) {
-                configObservableList.clear();
-                configObservableList.addAll(repo.getAll());
+                updateSelectionModel(configList.getSelectionModel(), configObservableList, repo.getAll());
             }
         });
     }
@@ -151,6 +162,9 @@ public class AdminController implements Initializable, IRepoListener {
         saveAllChanges();
     }
 
+    /**
+     * Starts a task to save all changes (This will be run on another thread)
+     */
     public void saveAllChanges() {
         try {
             SaveChangesTask task = new SaveChangesTask();
@@ -181,7 +195,6 @@ public class AdminController implements Initializable, IRepoListener {
         configManagmentModel.deleteConfig();
     }
 
-    //TODO: Move to model
     public void editConfigDetails(ActionEvent actionEvent) {
         Optional<DashboardConfig> result = DialogFactory.createConfigDialog(configList.getSelectionModel().getSelectedItem()).showAndWait();
     }
@@ -202,10 +215,17 @@ public class AdminController implements Initializable, IRepoListener {
         configManagmentModel.preview();
     }
 
+    /**
+     * Will start the logout process when the user pressed the logout button
+     * @param event
+     */
     public void logout(ActionEvent event) {
+        // Check if repo has changes
         if (repoFacade.hasChanges()) {
+            // Ask if user wants to save
             Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Unsaved changes!", "You have unsaved changes, do you want to save?").showAndWait();
             if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+                //Save
                 saveAllChanges();
             }
         }
@@ -225,8 +245,25 @@ public class AdminController implements Initializable, IRepoListener {
         configManagmentModel.removeMessage();
     }
 
+    /**
+     * Updates the password of the selected user (Will force changes to be saved, to be sure password is updated)
+     * @param event
+     */
     public void updatePass(ActionEvent event) {
         userManagementModel.savePassword();
         saveAllChanges();
+    }
+
+    /**
+     * Updates a selection model with new data (Re-selects the previous selected item)
+     * @param model The model to update
+     * @param list The observable list binded to the model
+     * @param newData the list of refreshed data
+     */
+    private void updateSelectionModel(SelectionModel model, ObservableList list, List newData) {
+        Object selectedItem = model.getSelectedItem();
+        list.clear();
+        list.addAll(newData);
+        model.select(selectedItem);
     }
 }

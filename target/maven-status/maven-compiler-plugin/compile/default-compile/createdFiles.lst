@@ -3,6 +3,7 @@ com\redheads\arla\ui\DialogFactory$1.class
 com\redheads\arla\business\repo\IRepo.class
 com\redheads\arla\persistence\database\DBConnector.class
 com\redheads\arla\persistence\DashboardMessageDataAccess.class
+com\redheads\arla\persistence\files\POIExcelLoader$1.class
 com\redheads\arla\ui\WindowManager.class
 com\redheads\arla\business\events\IRepoListener.class
 com\redheads\arla\persistence\files\IExcelLoader.class
