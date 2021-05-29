@@ -41,6 +41,10 @@ public class RepoFacade {
         return messageRepo;
     }
 
+    /**
+     * Checks all repositories in the system for changes
+     * @return
+     */
     public Boolean hasChanges() {
         return configRepo.hasChanges() || userRepo.hasChanges() || messageRepo.hasChanges();
     }

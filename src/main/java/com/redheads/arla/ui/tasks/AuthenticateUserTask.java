@@ -14,6 +14,11 @@ public class AuthenticateUserTask extends Task<Boolean> {
         this.password = password;
     }
 
+    /**
+     * Will authenticate the user of this task
+     * @return The result of the authentication
+     * @throws Exception If there is an error authenticating (Most likely a data access error)
+     */
     @Override
     protected Boolean call() throws Exception {
         return authService.authenticateUser(username, password);

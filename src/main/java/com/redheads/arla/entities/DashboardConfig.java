@@ -37,12 +37,20 @@ public class DashboardConfig extends Entity {
         return cells;
     }
 
+    /**
+     * Adds a cell to the dashboard
+     * @param cell The cell to add
+     */
     public void addCell(DashboardCell cell) {
         cells.add(cell);
         newCells.add(cell);
         entityChanged();
     }
 
+    /**
+     * Removes a cell from the dashboard
+     * @param cell The cell to remove
+     */
     public void removeCell(DashboardCell cell) {
         deletedCells.add(cell);
         cells.remove(cell);

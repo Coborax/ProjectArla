@@ -12,11 +12,13 @@ import java.util.List;
 
 public class DashboardConfigDataAccess implements IDataAccess<DashboardConfig> {
 
+    //Config SQL Queries
     private final String CREATE_SQL = "INSERT INTO DashboardConfigs (Name, RefreshRate) VALUES (?, ?);";
     private final String DELETE_SQL = "DELETE FROM DashboardConfigs WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM DashboardConfigs;";
     private final String UPDATE_SQL = "UPDATE DashboardConfigs SET Name = ?, RefreshRate = ? WHERE ID = ?;";
 
+    //Cell SQL Queries
     private final String CREATE_CELL_SQL = "INSERT INTO DashboardCells (ConfigID, [Column], [Row], ColumnSpan, RowSpan, ContentPath) VALUES (?, ?, ?, ?, ?, ?);";
     private final String DELETE_CELL_SQL = "DELETE FROM DashboardCells WHERE ConfigID = ? AND [Column] = ? AND [Row] = ?;";
     private final String SELECT_ALL_CELLS_SQL = "SELECT * FROM DashboardCells WHERE ConfigID = ?;";

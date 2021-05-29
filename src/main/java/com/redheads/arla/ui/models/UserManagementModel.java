@@ -68,7 +68,7 @@ public class UserManagementModel extends ListSelectionModel<User> {
     }
 
     /**
-     * Updates user object, and saves all changes
+     * Updates the username field of the selected user
      */
     public void saveUsername() {
         User u = getSelectedItem();
@@ -76,12 +76,18 @@ public class UserManagementModel extends ListSelectionModel<User> {
         getSelectionModel().select(u);
     }
 
+    /**
+     * Updates the config field of the selected user
+     */
     public void saveConfig() {
         User u = getSelectedItem();
         u.setConfigID(configSingleSelectionModel.getSelectedItem().getId());
         getSelectionModel().select(u);
     }
 
+    /**
+     * Updates the password field of the selected user (Will also hash the typed password)
+     */
     public void savePassword() {
         User u = getSelectedItem();
         if (!password.get().isEmpty() && !password.get().isBlank()) {
@@ -92,15 +98,10 @@ public class UserManagementModel extends ListSelectionModel<User> {
 
 
     /**
-     * Removes user from repo, and saves all changes
+     * Removes user from repo
      */
     public void deleteUser() {
         repoFacade.getUserRepo().remove(getSelectedItem());
-        try {
-            repoFacade.saveChanges();
-        } catch (DataAccessError dataAccessError) {
-            showError(dataAccessError);
-        }
     }
 
     public String getUsername() {

@@ -51,6 +51,10 @@ public class SimpleRepo<T extends Entity> extends ObservableRepo<T> {
         notifyRepoChange();
     }
 
+    /**
+     * Saves all changes based on when the entity was last updated, and wether or not it is to be created or deleted
+     * @throws DataAccessError If there is an issue calling our data access objects
+     */
     @Override
     public void saveAllChanges() throws DataAccessError {
         for (Entity entity : entities) {
@@ -71,6 +75,10 @@ public class SimpleRepo<T extends Entity> extends ObservableRepo<T> {
         notifyRepoChange();
     }
 
+    /**
+     * Checks if the repo has any changes, that has not been saved to the repository yet
+     * @return True if there are changes, and False if there are no changes
+     */
     public boolean hasChanges() {
         if (!newEntities.isEmpty() || !deletedEntities.isEmpty()) {
             return true;

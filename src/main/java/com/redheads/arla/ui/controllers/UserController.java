@@ -80,6 +80,9 @@ public class UserController implements Initializable {
         });
     }
 
+    /**
+     * Wil setup the main grid
+     */
     private void setupGrid() {
         tileGrid.getChildren().clear();
 
@@ -114,6 +117,15 @@ public class UserController implements Initializable {
         }
     }
 
+    /**
+     * Gets a node for a cell from a DashboardCell object (Created by the CellFactory)
+     * @param cell The DashboardCell object
+     * @return A node that has data from the DashboardCell object.
+     * @throws ExcelReadError If there is an error reading excel files
+     * @throws FileNotFoundException If an image file is not found
+     * @throws PDFReadError If there is an error reading pdf files
+     * @throws CSVReadError If there is an error reading csv files
+     */
     private Node createCellNode(DashboardCell cell) throws ExcelReadError, FileNotFoundException, PDFReadError, CSVReadError {
         Node node;
         node = CellFactory.createCell(cell);
@@ -127,6 +139,9 @@ public class UserController implements Initializable {
         return node;
     }
 
+    /**
+     * Setups the messages
+     */
     private void setupMessage() {
         DashboardMessage m = repoFacade.getMessageRepo().getCurrentMessage(UserSession.getInstance().getCurrentUser().getConfigID());
         if (m != null) {
@@ -140,10 +155,19 @@ public class UserController implements Initializable {
         }
     }
 
+    /**
+     * Setup the UI to fullscreen mode
+     * @param cell The DashboardCell object
+     */
     private void setupFullscreen(DashboardCell cell) {
         setupFullscreen(null, cell);
     }
 
+    /**
+     * Setup the UI to fullscreen mode
+     * @param node The UI node to fullscreen
+     * @param cell The corrosponding DashboardCell object
+     */
     private void setupFullscreen(Node node, DashboardCell cell) {
         Node nodeToUse = node;
         if (nodeToUse == null) {
@@ -157,6 +181,10 @@ public class UserController implements Initializable {
         fullscreenContainer.setVgrow(nodeToUse, Priority.ALWAYS);
     }
 
+    /**
+     * Toggles css classes for messages, depending on the severity
+     * @param type The severity level
+     */
     private void toggleMessageClasses(MessageType type) {
         ObservableList<String> classes = messageContainer.getStyleClass();
         if (classes.contains("info")) {
@@ -184,6 +212,9 @@ public class UserController implements Initializable {
         refresh();
     }
 
+    /**
+     * Refresh the UI
+     */
     public void refresh() {
         if (isFullscreen) {
             setupFullscreen(fullscreenCell);
@@ -192,6 +223,10 @@ public class UserController implements Initializable {
         setupMessage();
     }
 
+    /**
+     * Called when the user pressed the logout button. Will log the user out
+     * @param actionEvent
+     */
     public void logout(ActionEvent actionEvent) {
         WindowManager.popScene();
         // Only remove user session if the user is not admin. As admins will be returned to the configuration screen.
@@ -200,6 +235,11 @@ public class UserController implements Initializable {
         }
     }
 
+    /**
+     * Toggles fullscreen mode
+     * @param node The node to fullscreen
+     * @param cell The corrosponding DashboardCell object
+     */
     private void toggleFullscreenCell(Node node, DashboardCell cell) {
         if (isFullscreen) {
             fullscreenContainer.setVisible(false);

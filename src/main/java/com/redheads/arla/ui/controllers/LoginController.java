@@ -42,6 +42,10 @@ public class LoginController implements Initializable {
         });
     }
 
+    /**
+     * Starts a task to try to login, if the user presses the login button
+     * @param actionEvent
+     */
     public void login(ActionEvent actionEvent) {
         AuthenticateUserTask task = new AuthenticateUserTask(usernameField.getText(), passwordField.getText());
 

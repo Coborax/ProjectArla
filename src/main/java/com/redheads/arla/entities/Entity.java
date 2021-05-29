@@ -18,6 +18,9 @@ public class Entity {
         return lastUpdated;
     }
 
+    /**
+     * Updates the lastUpdated variable (To be called whenever a change is made to the entity)
+     */
     public void entityChanged() {
         lastUpdated = LocalDateTime.now();
     }

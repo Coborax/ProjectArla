@@ -10,6 +10,7 @@ import java.util.List;
 
 public class UserDataAccess implements IDataAccess<User> {
 
+    //SQL Queries
     private final String CREATE_SQL = "INSERT INTO Users (Username, Password, IsAdmin, ConfigID) VALUES (?, ?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM Users WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM Users;";

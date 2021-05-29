@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An excel loader that uses the Apache POI library for reading data
+ */
 public class POIExcelLoader implements IExcelLoader {
     @Override
     public List<String[]> readData(String path) throws ExcelReadError {

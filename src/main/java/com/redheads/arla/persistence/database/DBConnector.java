@@ -4,12 +4,12 @@
 
 package com.redheads.arla.persistence.database;
 
-import java.io.IOException;
-import java.sql.Connection;
-
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.redheads.arla.util.config.DBConfigReader;
+
+import java.io.IOException;
+import java.sql.Connection;
 
 public class DBConnector {
     private DBConfigReader config;
@@ -31,6 +31,11 @@ public class DBConnector {
         }
     }
 
+    /**
+     * Returns a connection to our database
+     * @return The database connection object
+     * @throws SQLServerException If there is an error connecting
+     */
     public Connection getConnection() throws SQLServerException
     {
         return dataSource.getConnection();

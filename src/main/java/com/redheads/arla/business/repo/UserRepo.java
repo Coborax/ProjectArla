@@ -25,6 +25,11 @@ public class UserRepo extends SimpleRepo<User> {
         users.addAll(userDataAccess.readAll());
     }
 
+    /**
+     * Gets a user with a given username
+     * @param username The username to search for
+     * @return The user object of the user if a user exists with the username, or null if it does not exist
+     */
     public User get(String username) {
         for (User u : users) {
             if (u.getUsername().equals(username)) {

@@ -84,7 +84,7 @@ public class AdminController implements Initializable, IRepoListener {
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     /**
-     * Do the initialization of the different ui elements
+     * Does the initialization of the different ui elements
      * @param location
      * @param resources
      */

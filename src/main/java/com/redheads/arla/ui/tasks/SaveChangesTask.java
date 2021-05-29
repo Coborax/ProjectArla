@@ -12,6 +12,11 @@ public class SaveChangesTask extends Task<Boolean> {
         repoFacade = RepoFacade.getInstance();
     }
 
+    /**
+     * Will save all changes of all repositories
+     * @return True or False depending if the repository has any changes to save
+     * @throws Exception If there is an error saving all changes
+     */
     @Override
     protected Boolean call() throws Exception {
         Boolean hasChanges = repoFacade.hasChanges();

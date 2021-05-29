@@ -35,6 +35,9 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         this.selectionModelMessages = selectionModelMessages;
     }
 
+    /**
+     * Creates a new dashboard config and adds it to the config repo
+     */
     public void newConfig() {
         Optional<DashboardConfig> config = DialogFactory.createConfigDialog().showAndWait();
         if (config.isPresent()) {
@@ -42,22 +45,18 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         }
     }
 
-    public void saveConfig() {
-        DashboardConfig config = getSelectedItem();
-        try {
-            repoFacade.saveChanges();
-        } catch (DataAccessError dataAccessError) {
-            dataAccessError.printStackTrace();
-            DialogFactory.createErrorAlert(dataAccessError);
-        }
-        getSelectionModel().select(config);
-    }
 
+    /**
+     * Deletes the selected config from the repo
+     */
     public void deleteConfig() {
         repoFacade.getConfigRepo().remove(getSelectedItem());
     }
 
 
+    /**
+     * Will show a popup to make a new dashboard cell, and adds it to the repo
+     */
     public void addContent() {
         Optional<DashboardCell> cell = DialogFactory.createCellDialog().showAndWait();
         if (cell.isPresent()) {
@@ -65,14 +64,23 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         }
     }
 
+    /**
+     * Will show a popup to edit a dashboard cell
+     */
     public void editContent() {
         DialogFactory.createEditCellDialog(selectionModelCell.getSelectedItem()).showAndWait();
     }
 
+    /**
+     * Will remove the selected dasboard cell from the selected dashboard
+     */
     public void removeContent() {
         getSelectedItem().removeCell(selectionModelCell.getSelectedItem());
     }
 
+    /**
+     * Will make the program go into preview mode
+     */
     public void preview() {
         try {
             UserSession.getInstance().getCurrentUser().setConfigID(getSelectedItem().getId());
@@ -82,6 +90,9 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         }
     }
 
+    /**
+     * Will show a popup to make a new dashboard message, and adds it to the repo
+     */
     public void addMessage() {
         Optional<DashboardMessage> message = DialogFactory.createMessageDialog(getSelectedItem().getId(), null).showAndWait();
         if (message.isPresent()) {
@@ -89,10 +100,16 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
         }
     }
 
+    /**
+     * Will show a popup to edit a dashboard message
+     */
     public void editMessage() {
         DialogFactory.createMessageDialog(getSelectedItem().getId(), selectionModelMessages.getSelectedItem()).showAndWait();
     }
 
+    /**
+     * Will remove the selected dasboard message from the message repo
+     */
     public void removeMessage() {
         repoFacade.getMessageRepo().remove(selectionModelMessages.getSelectedItem());
     }

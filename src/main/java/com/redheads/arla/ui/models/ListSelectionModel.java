@@ -3,6 +3,10 @@ package com.redheads.arla.ui.models;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.control.MultipleSelectionModel;
 
+/**
+ * A View Model for a selectable list of T
+ * @param <T> The type of object we wan to list, and be able to select
+ */
 public class ListSelectionModel<T> {
 
     private ReadOnlyObjectProperty<T> selectedItem;

@@ -15,6 +15,11 @@ public class MessageRepo extends SimpleRepo<DashboardMessage> {
         getEntities().addAll(getDataAccess().readAll());
     }
 
+    /**
+     * Fetches a list of dashboard messages from a given config
+     * @param configID The id of the config to fetch messages from
+     * @return A list of dashboard messages
+     */
     public List<DashboardMessage> getMessagesWithConfigID(int configID) {
         List<DashboardMessage> result = new ArrayList<>();
         for (DashboardMessage m : getEntities()) {
@@ -25,6 +30,11 @@ public class MessageRepo extends SimpleRepo<DashboardMessage> {
         return result;
     }
 
+    /**
+     * Fetches a dashboard message that is suppose to be displayed now
+     * @param configID The config id to match
+     * @return The dashboard message matching the current time and config id
+     */
     public DashboardMessage getCurrentMessage(int configID) {
         LocalTime now = LocalTime.now();
         for (DashboardMessage m : getEntities()) {

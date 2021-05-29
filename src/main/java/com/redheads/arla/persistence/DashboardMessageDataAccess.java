@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DashboardMessageDataAccess implements IDataAccess<DashboardMessage> {
 
+    //SQL Queries
     private final String CREATE_SQL = "INSERT INTO DashboardMessages (ConfigID, Message, MessageType, StartDate, EndDate) VALUES (?, ?, ?, ?, ?);";
     private final String DELETE_SQL = "DELETE FROM DashboardMessages WHERE ID=?;";
     private final String SELECT_ALL_SQL = "SELECT * FROM DashboardMessages;";

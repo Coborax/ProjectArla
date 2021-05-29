@@ -17,6 +17,13 @@ public class AuthService {
         return hash.getResult();
     }
 
+    /**
+     * Authenticates a user with a given username and password
+     * @param username The username of the user we want to authenticate
+     * @param password The password of the user we want to authenticate
+     * @return True if the authentication succeeds, and False if it fails or there is no user with the corrosponding username
+     * @throws DataAccessError If there is a problem connection to the database through the repositories
+     */
     public boolean authenticateUser(String username, String password) throws DataAccessError {
         RepoFacade repoFacade = RepoFacade.getInstance();
         User user = repoFacade.getUserRepo().get(username);

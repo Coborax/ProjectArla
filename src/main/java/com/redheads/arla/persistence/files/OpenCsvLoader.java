@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A CSV loader that uses the OpenCSV library
+ */
 public class OpenCsvLoader implements ICSVLoader {
 
     @Override
