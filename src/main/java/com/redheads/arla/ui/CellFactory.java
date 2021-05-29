@@ -26,7 +26,15 @@ import java.util.List;
 
 public class CellFactory {
 
-    //TODO: Change file not found to custom exception
+    /**
+     * Creates a UI Node based on the given Cell (CellType)
+     * @param cell The DashboardCell object to use for node creation
+     * @return The node of the newly created cell
+     * @throws CSVReadError If an error occurs when creating csv cells
+     * @throws PDFReadError If an error occurs when creating pdf cell
+     * @throws FileNotFoundException If an error occurs when creating a image cell
+     * @throws ExcelReadError If an error occurs when creating excel cells
+     */
     public static Node createCell(DashboardCell cell) throws CSVReadError, PDFReadError, FileNotFoundException, ExcelReadError {
         Node node = null;
         switch (cell.getContentType()) {
@@ -42,6 +50,12 @@ public class CellFactory {
         return node;
     }
 
+    /**
+     * Creates a pdf cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The pdf cell
+     * @throws PDFReadError If the pdf file could not be loaded
+     */
     private static Node createPDFCell(DashboardCell cell) throws PDFReadError {
         PDFDisplayer pdfView = new PDFDisplayer();
         try {
@@ -53,12 +67,24 @@ public class CellFactory {
         return pdfView.toNode();
     }
 
+    /**
+     * Creates a web cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The web cell
+     */
     private static Node createWebCell(DashboardCell cell) {
         WebView webView = new WebView();
         webView.getEngine().load("file://" + cell.getContentPath());
         return webView;
     }
 
+    /**
+     * Creates either a excel or a csv bar chart cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The bar chart cell
+     * @throws CSVReadError If there is an error loading csv data
+     * @throws ExcelReadError If there is an error loading excel data
+     */
     private static Node createBarCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
         List<String[]> data = getSheetData(cell);
 
@@ -85,6 +111,13 @@ public class CellFactory {
         return chart;
     }
 
+    /**
+     * Return data for either excel or csv files
+     * @param cell The DashboardCell object to use for loading data
+     * @return The data of either a csv file or excel
+     * @throws ExcelReadError If there is an error reading excel data
+     * @throws CSVReadError If there is an error reading csv data
+     */
     private static List<String[]> getSheetData(DashboardCell cell) throws ExcelReadError, CSVReadError {
         List<String[]> data;
         if (cell.getContentType() == ContentType.EXCEL_RAW ||
@@ -98,6 +131,13 @@ public class CellFactory {
         return data;
     }
 
+    /**
+     * Creates either a excel or a csv pie chart cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The pie chart cell
+     * @throws CSVReadError If there is an error loading csv data
+     * @throws ExcelReadError If there is an error loading excel data
+     */
     private static Node createPieChartCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
         List<String[]> data = getSheetData(cell);
 
@@ -134,6 +174,13 @@ public class CellFactory {
         return piechart;
     }
 
+    /**
+     * Creates either a excel or a csv line chart cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The line chart cell
+     * @throws CSVReadError If there is an error loading csv data
+     * @throws ExcelReadError If there is an error loading excel data
+     */
     private static Node createLineChartCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
         List<String[]> data = getSheetData(cell);
 
@@ -160,6 +207,13 @@ public class CellFactory {
         return lineChart;
     }
 
+    /**
+     * Creates either a excel or a csv based table
+     * @param cell The DashboardCell object to use for node creation
+     * @return The table node
+     * @throws CSVReadError If there is an error loading csv data
+     * @throws ExcelReadError If there is an error loading excel data
+     */
     private static Node createRawCell(DashboardCell cell) throws CSVReadError, ExcelReadError {
         List<String[]> data = getSheetData(cell);
         TableView<ObservableList<String>> tableView = new TableView<>();
@@ -185,6 +239,12 @@ public class CellFactory {
         return tableView;
     }
 
+    /**
+     * Create an image cell
+     * @param cell The DashboardCell object to use for node creation
+     * @return The image node
+     * @throws FileNotFoundException If the image could not be loaded
+     */
     private static Node createImageCell(DashboardCell cell) throws FileNotFoundException {
         BorderPane pane = new BorderPane();
         pane.setCenter(new ImageView(FileHelper.loadImage(cell.getContentPath())));
