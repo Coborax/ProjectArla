@@ -183,7 +183,6 @@ public class DialogFactory {
 
         GridPane grid = createGridPane();
 
-        //TODO: Change to spinner perhaps
         JFXTextField column = new JFXTextField();
         column.setPromptText("Column");
         JFXTextField row = new JFXTextField();
@@ -231,7 +230,6 @@ public class DialogFactory {
         // Create the username and password labels and fields.
         GridPane grid = createGridPane();
 
-        //TODO: Change to spinner perhaps
         JFXTextField column = new JFXTextField();
         column.setPromptText("Column");
         column.textProperty().set(Integer.toString(cell.getColumn()));
