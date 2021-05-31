@@ -8,6 +8,7 @@ import com.redheads.arla.entities.DashboardMessage;
 import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.ui.WindowManager;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MultipleSelectionModel;
 
 import java.io.IOException;
@@ -50,7 +51,10 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
      * Deletes the selected config from the repo
      */
     public void deleteConfig() {
-        repoFacade.getConfigRepo().remove(getSelectedItem());
+        Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Confirm delete", "Are you sure you want to delete this dashboard?").showAndWait();
+        if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+            repoFacade.getConfigRepo().remove(getSelectedItem());
+        }
     }
 
 
@@ -75,7 +79,10 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
      * Will remove the selected dasboard cell from the selected dashboard
      */
     public void removeContent() {
-        getSelectedItem().removeCell(selectionModelCell.getSelectedItem());
+        Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Confirm delete", "Are you sure you want to delete this content?").showAndWait();
+        if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+            getSelectedItem().removeCell(selectionModelCell.getSelectedItem());
+        }
     }
 
     /**
@@ -111,6 +118,9 @@ public class ConfigManagmentModel extends ListSelectionModel<DashboardConfig> {
      * Will remove the selected dasboard message from the message repo
      */
     public void removeMessage() {
-        repoFacade.getMessageRepo().remove(selectionModelMessages.getSelectedItem());
+        Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Confirm delete", "Are you sure you want to delete this message?").showAndWait();
+        if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+            repoFacade.getMessageRepo().remove(selectionModelMessages.getSelectedItem());
+        }
     }
 }

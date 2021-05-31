@@ -85,7 +85,7 @@ public class UserController implements Initializable {
      */
     private void setupGrid() {
         tileGrid.getChildren().clear();
-
+        
         for (DashboardCell cell : config.getCells()) {
             Node node = null;
             try {

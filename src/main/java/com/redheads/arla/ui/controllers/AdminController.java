@@ -5,10 +5,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.redheads.arla.business.events.IRepoListener;
-import com.redheads.arla.business.repo.DashboardConfigRepo;
-import com.redheads.arla.business.repo.IRepo;
-import com.redheads.arla.business.repo.RepoFacade;
-import com.redheads.arla.business.repo.UserRepo;
+import com.redheads.arla.business.repo.*;
 import com.redheads.arla.entities.DashboardCell;
 import com.redheads.arla.entities.DashboardConfig;
 import com.redheads.arla.entities.DashboardMessage;
@@ -150,6 +147,10 @@ public class AdminController implements Initializable, IRepoListener {
                 updateSelectionModel(userList.getSelectionModel(), userObservableList, repo.getAll());
             } else if (repo instanceof DashboardConfigRepo) {
                 updateSelectionModel(configList.getSelectionModel(), configObservableList, repo.getAll());
+            } else if (repo instanceof MessageRepo) {
+                if (configList.getSelectionModel().getSelectedItem() != null) {
+                    updateSelectionModel(dashboardMessages.getSelectionModel(), selectedDashboardMessages, repoFacade.getMessageRepo().getMessagesWithConfigID(configList.getSelectionModel().getSelectedItem().getId()));
+                }
             }
         });
     }

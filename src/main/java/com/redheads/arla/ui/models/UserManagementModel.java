@@ -8,6 +8,7 @@ import com.redheads.arla.ui.DialogFactory;
 import com.redheads.arla.util.exceptions.persistence.DataAccessError;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SingleSelectionModel;
 
@@ -101,7 +102,10 @@ public class UserManagementModel extends ListSelectionModel<User> {
      * Removes user from repo
      */
     public void deleteUser() {
-        repoFacade.getUserRepo().remove(getSelectedItem());
+        Optional<ButtonType> res = DialogFactory.createConfirmationAlert("Confirm delete", "Are you sure you want to delete this user?").showAndWait();
+        if (res.isPresent() && res.get().equals(ButtonType.OK)) {
+            repoFacade.getUserRepo().remove(getSelectedItem());
+        }
     }
 
     public String getUsername() {
