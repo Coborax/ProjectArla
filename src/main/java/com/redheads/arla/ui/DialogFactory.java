@@ -18,6 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 public class DialogFactory {
 
+    /**
+     * Creates a dialog, that the user can confirm
+     * @param title The title of the dialog window
+     * @param msg The message of the dialog
+     * @return The created dialog
+     */
     public static Dialog createConfirmationAlert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -26,6 +32,11 @@ public class DialogFactory {
         return alert;
     }
 
+    /**
+     * Creates a dialog, that is meant to show errors
+     * @param e The throwable to get error message from
+     * @return The create error dialog
+     */
     public static Dialog createErrorAlert(Throwable e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("An error occurred");
@@ -35,6 +46,11 @@ public class DialogFactory {
         return alert;
     }
 
+    /**
+     * Creates a dialog, that is used to display info to the user
+     * @param msg The message to show the user
+     * @return The created info dialog
+     */
     public static Dialog createInfoAlert(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(msg);
@@ -42,6 +58,10 @@ public class DialogFactory {
         return alert;
     }
 
+    /**
+     * Creates a dialog, for creating new users
+     * @return The created user dialog
+     */
     public static Dialog<User> createUserDialog() {
         Dialog<User> dialog = new Dialog<>();
 
@@ -84,6 +104,10 @@ public class DialogFactory {
         return dialog;
     }
 
+    /**
+     * Creates a dialog for creating dashboard configs
+     * @return The created dashboard dialog
+     */
     public static Dialog<DashboardConfig> createConfigDialog() {
         Dialog<DashboardConfig> dialog = new Dialog<>();
 
@@ -128,6 +152,11 @@ public class DialogFactory {
         return dialog;
     }
 
+    /**
+     * Creates a dialog for editing dashboard configs
+     * @param config The dashboard to edit
+     * @return The create dialog
+     */
     public static Dialog<DashboardConfig> createConfigDialog(DashboardConfig config) {
 
         Dialog<DashboardConfig> dialog = new Dialog<>();
@@ -174,6 +203,10 @@ public class DialogFactory {
         return dialog;
     }
 
+    /**
+     * Creates a dialog for creating dashboard cells
+     * @return The created dialog
+     */
     public static Dialog<DashboardCell> createCellDialog() {
         Dialog<DashboardCell> dialog = new Dialog<>();
 
@@ -220,6 +253,11 @@ public class DialogFactory {
         return dialog;
     }
 
+    /**
+     * Creates a dialog for editing a dashboard cell
+     * @param cell The cell to edit
+     * @return The created dialog
+     */
     public static Dialog<Boolean> createEditCellDialog(DashboardCell cell) {
         Dialog<Boolean> dialog = new Dialog();
 
@@ -335,6 +373,12 @@ public class DialogFactory {
         grid.add(contentType, 1, 5);
     }
 
+    /**
+     * Creates a dialog for creating and editing dashboard messages
+     * @param configID The id of the dashboard config
+     * @param msg The message to edit (Should be null if creating a new message is desired)
+     * @return The created dialog
+     */
     public static Dialog<DashboardMessage> createMessageDialog(int configID, DashboardMessage msg) {
         Dialog<DashboardMessage> dialog = new Dialog();
 
